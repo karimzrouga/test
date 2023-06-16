@@ -1,0 +1,64 @@
+<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+    <div class="sb-sidenav-menu">
+        <div class="nav" >
+            <div class="sb-sidenav-menu-heading"></div>
+  
+            <a class="nav-link" routerLink="/profile">
+                <div class="sb-nav-link-icon"><i class="fas fa-id-card"></i></div>
+                profile
+            </a>
+            <a class="nav-link" routerLink="/stat">
+                <div class="sb-nav-link-icon"><i class="fas fa-chart-pie"></i></div>
+                Statistiques
+            </a>
+           <div *ngIf="role=='admin'" >
+            <a  class="nav-link" [routerLink]="['/admin/users']">
+                <div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>
+            Users
+            </a>
+            <a  class="nav-link" [routerLink]="['/admin/permissions']">
+                <div class="sb-nav-link-icon"><i class="fas fa-lock"></i></div>
+            Permission
+            </a>
+           
+            <a class="nav-link" [routerLink]="['/admin/roles']">
+                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+               Roles
+            </a>
+        </div>
+        <div *ngIf="role=='responsabletransport'" >
+            <a class="nav-link" [routerLink]="['/map']">
+                <div class="sb-nav-link-icon"><i class="fas fa-map"></i></div>
+               Map
+            </a>
+            <a class="nav-link" [routerLink]="['/responsabletransport/agance']">
+                <div class="sb-nav-link-icon"><i class="fas fa-industry"></i></div>
+               Agances
+            </a>
+        
+            <a class="nav-link" [routerLink]="['/responsabletransport/circuit']">
+                <div class="sb-nav-link-icon"><i class="fas fa-route"></i></div>
+               Circuits
+            </a>
+            <a class="nav-link" [routerLink]="['/responsabletransport/stations']">
+                <div class="sb-nav-link-icon"><i class="fas fa-bus"></i></div>
+               stations
+            </a>
+            <a class="nav-link" [routerLink]="['/responsabletransport/facturation']">
+                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
+               Facturations
+            </a>
+            <a class="nav-link" [routerLink]="['/responsabletransport/planifiagence']">
+                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
+               Planifiagens
+            </a>
+            <a class="nav-link" [routerLink]="['/responsabletransport/vehicule']">
+                <div class="sb-nav-link-icon"><i class="fas fa-car"></i></div>
+               Vehicules
+            </a>
+        </div>
+        </div>
+        <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/><br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>
+    </div>
+   
+  </nav>

@@ -1,0 +1,297 @@
+<app-adminheader></app-adminheader>
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <app-adminsidebar></app-adminsidebar>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Utilisateurs</h1>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col col-lg-10">
+                                <i class="fas fa-table me-1"></i>
+                                Liste d'utilisateurs
+                            </div>
+
+                            <div class="col col-lg-2">
+                                <button class="btn btn-primary btn-sm float-right" (click)="showAddForm()">
+                                    <i class="fas fa-plus"></i>
+                                    Add
+                                </button>
+                            </div>
+
+
+                            <div class="row" *ngIf="addFormVisible">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+
+                                    </div>
+                                    <div class="card-body">
+
+                                        <form (ngSubmit)="createuser();" method="POST">
+                                            <div class="card card-default">
+
+                                                <div class="card-body">
+                                                    <div class="form-group col-lg-6">
+                                                        <label>matricule</label>
+                                                        <input type="text" name="matricule" [(ngModel)]="user.matricule"
+                                                            class="form-control" />
+
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label>Nom</label>
+                                                        <input type="text" name="nom" [(ngModel)]="user.nom"
+                                                            class="form-control" />
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="form-group col-lg-6">
+                                                            <label> Email</label>
+                                                            <input [(ngModel)]="user.email" name="Email" type="Email"
+                                                                class="form-control" />
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label> password</label>
+                                                            <input [(ngModel)]="user.password" name="Email" type="password"
+                                                                class="form-control" />
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+
+                                                            <label>plansection</label>
+                                                            <input type="text" name="plansection"
+                                                                [(ngModel)]="user.plansection" required
+                                                                #description="ngModel" class="form-control" />
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+
+                                                            <label>segment</label>
+                                                            <input type="text" name="segment"
+                                                                [(ngModel)]="user.segment" required
+                                                                #description="ngModel" class="form-control" />
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label>Role</label>
+                                                            <select     required class="form-control" id="DropdownOptions" name="type"
+                                                            (change)="getidrole($event)"  >
+                                                            <option *ngFor="let opt of roles"
+                                                                [value]="opt.id">
+                                                                {{ opt.roleName }}
+                                                            </option>
+                                                        </select>
+                                                          
+                                                              
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label>Permission</label>
+                                                            <select     required class="form-control" id="DropdownOptions" name="type"
+                                                            (change)="getidper($event)"  >
+                                                            <option *ngFor="let opt of permissions"
+                                                                [value]="opt.id">
+                                                                {{ opt.description }}
+                                                            </option>
+                                                        </select>
+                                                          
+                                                              
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label>Planifications</label>
+                                                            <select     required class="form-control" 
+                                                            (change)="getidplani($event)"  >
+                                                            <option *ngFor="let opt of plani"
+                                                                [value]="opt.id">
+                                                                {{ opt.planificationName }}
+                                                            </option>
+                                                        </select>
+                                                          
+                                                              
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label>Shift</label>
+                                                            <select     required class="form-control"
+                                                            (change)="getidshift($event)"  >
+                                                            <option *ngFor="let opt of Shift"
+                                                                [value]="opt.id">
+                                                                {{opt.entre | date : " hh:mm" }} |    {{opt.sortie | date : " hh:mm" }}
+                                                            </option>
+                                                        </select>
+                                                          
+                                                              
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="row float-right">
+                                                        <div class="col">
+                                                            <button type="reset" class="btn btn-primary  btn-sm m-3"
+                                                                data-dismiss="modal"
+                                                                (click)="hideAddForm()">Annuler</button>
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                data-dismiss="modal">Enregistrer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="editFormVisible">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+
+                                        <form (ngSubmit)="updateuser(user)" method="POST">
+                                            <div class="card card-default">
+
+                                                <div class="card-body">
+
+                                                    <div class="row">
+                                                        <div class="form-group col-lg-6">
+                                                            <label> montant</label>
+                                                            <input [(ngModel)]="user.email" name="montant" type="number"
+                                                                class="form-control" />
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+
+                                                            <label>Description</label>
+                                                            <input type="text" name="description"
+                                                                [(ngModel)]="user.email" required #description="ngModel"
+                                                                class="form-control" />
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label>Agence</label>
+                                                            <select required class="form-control" id="DropdownOptions"
+                                                                name="type" (change)="getid($event)"
+                                                                formControlName="type">
+                                                                <option *ngFor="let opt of roles" [value]="opt.id">
+                                                                    {{ opt.roleName }}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="row float-right">
+                                                        <div class="col">
+                                                            <button type="reset" class="btn btn-primary  btn-sm m-3"
+                                                                data-dismiss="modal"
+                                                                (click)="hideEditForm()">Annuler</button>
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                data-dismiss="modal">Enregistrer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+                    <div style="margin: 2%; display: flex; align-items: center;">
+                        <h6 style="margin-right: 10px;">Role:</h6>
+                        <div>
+                            <select (change)="ChangeSortOrderbystate($event)">
+                                <option value="all">
+                                    All
+                                </option>
+                                <option *ngFor="let sortOrder of roles" [value]="sortOrder.id">
+                                    {{sortOrder.roleName}}
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>matricule</th>
+                                <th>nom</th>
+                                <th>email</th>
+                                <th>plansection</th>
+                                <th>segment</th>
+                                <th>role</th>
+                                <th>permission</th>
+                                <th>createdAt</th>
+                                <th>updatedAt</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let f of users | filter: term : 'roleId' | slice:(currentPage - 1) * itemsPerPage : currentPage * itemsPerPage ">
+                                <td>
+                                    <p>{{f.matricule}}</p>
+                                </td>
+                                <td>
+                                    <p>{{f. nom}}</p>
+                                </td>
+                                <td>
+                                    <p>{{f.email}}</p>
+                                </td>
+                                <td>
+                                    <p>{{f.plansection}}</p>
+                                </td>
+                                <td>
+                                    <p>{{f.segment}}</p>
+                                </td>
+                                <td>
+                                    <p>{{f.role.roleName}}</p>
+                                </td>
+                                <td>
+                                    <p>{{f.permission.title}}</p>
+                                </td>
+                                <td>
+                                    <p>{{f.createdAt| date : "MM/dd/yyyy hh:mm:ssa" }}</p>
+                                </td>
+                                <td>
+                                    <p> {{f.updatedAt | date : "MM/dd/yyyy hh:mm:ssa" }}</p>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-info m-2" (click)="infouser(f)">
+                                        <i class="fas fa-info-circle text-white"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-warning m-2" (click)="edituser(f)">
+                                        <i class="fas fa-pen text-white"></i>
+
+                                    </button>
+
+                                    <button class="btn btn-sm btn-danger m-2" (click)="deleteuser(f)">
+                                        <i class="fas fa-trash text-white"></i>
+                                    </button>
+                                </td>
+
+                        </tbody>
+                    </table>
+                    <div><button *ngIf="currentPage >1" class="previous-button"
+                            (click)="currentPage = currentPage - 1">Précédent</button>
+                        <button *ngIf="currentPage < total" class="next-button"
+                            (click)="currentPage = currentPage + 1">Suivant</button>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+    </div>
+</div>
