@@ -38,14 +38,14 @@
                                                         <label>Number de Bus</label>
                                                         <input type="number" name="  nbbus" [(ngModel)]="PlanificationParagence.  nbbus"
                                                         required #nbbus="ngModel" class="form-control">
-                                                        <span style=color:red *ngIf="!  nbbus.valid &&   nbbus.touched">ce champs est obligatoire</span>
+                                                        <span style=color:red *ngIf="!  nbbus.valid &&   nbbus.touched"> obligatoire</span>
                                                           
                                                     </div>
                                                     <div class="form-group col-lg-6">
                                                         <label>Capacite</label>
                                                         <input type="number" name=" capacite" [(ngModel)]="PlanificationParagence. capacite"
                                                         required #capacite="ngModel" class="form-control">
-                                                        <span style=color:red *ngIf="! capacite.valid &&  capacite.touched">ce champs est obligatoire</span>
+                                                        <span style=color:red *ngIf="! capacite.valid &&  capacite.touched"> obligatoire</span>
                                                           
                                                     </div>
                                                     <div class="form-group col-lg-6">
@@ -137,6 +137,9 @@
                       <div><button  *ngIf="currentPage>1" class="previous-button" (click)="currentPage = currentPage - 1">Précédent</button>
                        <button *ngIf="currentPage<total"  class="next-button" (click)="currentPage = currentPage + 1">Suivant</button></div>
 
+                </div>
+                <div class="col-md-4 text-right">
+                    <button class="btn btn-success btn-block" (click)="openPDF()">Download PDF</button>
                 </div>
             </div>
         </main>

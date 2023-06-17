@@ -56,14 +56,14 @@
                                                             <input type="te
                                                             " name="immatricule" [(ngModel)]="vehicule.immatricule"
                                                             required #immatricule="ngModel" class="form-control">
-                                                            <span style=color:red *ngIf="!immatricule.valid && immatricule.touched">ce champs est obligatoire</span>
+                                                            <span style=color:red *ngIf="!immatricule.valid && immatricule.touched">  obligatoire</span>
                                                                
                                                         </div>
                                                         <div class="form-group col-lg-6">
                                                             <label>Capacite</label>
                                                             <input type="number" name="capacite" [(ngModel)]="vehicule.capacite"
                                                             required #capacite="ngModel" class="form-control">
-                                                            <span style=color:red *ngIf="!capacite.valid && capacite.touched">ce champs est obligatoire</span>
+                                                            <span style=color:red *ngIf="!capacite.valid && capacite.touched"> obligatoire</span>
                                                              
                                                         </div>
                                                       <!-- <div class="form-group col-lg-6">

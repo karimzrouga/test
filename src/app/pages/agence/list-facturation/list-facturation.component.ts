@@ -6,7 +6,8 @@ import { Facturation } from 'src/app/model/Facturation';
 import { AgencesService } from 'src/app/services/Agences.service';
 import { FacturationService } from 'src/app/services/Facturation.service';
 import Swal from 'sweetalert2';
-
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-list-facturation',
   templateUrl: './list-facturation.component.html',
@@ -31,6 +32,25 @@ export class ListFacturationComponent {
     private router: Router
     
   ) { }
+  downloadPDF(facture: Facturation) {
+    // Récupérer le chemin d'accès ou l'URL du PDF de la facture
+    const pdfUrl = facture.pdfUrl;
+
+    // Télécharger le PDF
+    window.open(pdfUrl, '_blank');
+  }
+  public openPDF(): void {
+    let DATA: any = document.getElementById('htmlData');
+    html2canvas(DATA).then((canvas) => {
+      let fileWidth = 208;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL('image/png');
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+      PDF.save('angular-demo.pdf');
+    });
+  }
 
   ngOnInit(): void {
  this.getFacturations()

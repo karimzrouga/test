@@ -6,7 +6,7 @@
      <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">agences</h1>
+                <h1 class="mt-4">Agences</h1>
                 
                 <div class="card mb-4">
                     <div class="card-header">
@@ -32,25 +32,28 @@
             
                                         <form (ngSubmit)="createagence();" method="POST">
                                             <div class="card card-default">
-            
+                                
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="form-group col-lg-6">
-                                                            <label>matricule</label>
+                                                            <label>Matricule</label>
                                                           
-                                                                <input type="text"name="matricule" [(ngModel)]="agence.matricule"
+                                                                <input type="text"name="matricule" [(ngModel)]="agence.matricule" #title="ngModel"
                                                                 class="form-control" />
+                                                                <span style=color:red *ngIf="!title.valid && title.touched">Matricule est obligatoire</span>
+
                                                         </div>
                                                         <div class="form-group col-lg-6">
-                                                            <label>Titre</label>
-                                                            <input type="text" name="titre" [(ngModel)]="agence.name" required 
+                                                            <label>Nom</label>
+                                                            <input type="text" name="titre" [(ngModel)]="agence.name" required #title="ngModel" 
                                                                 class="form-control" />
+                                                                <span style=color:red *ngIf="!title.valid && title.touched">Nom est obligatoire</span>
                                                         </div>
                                                         <div class="form-group col-lg-6">
-                                                            <label>Description</label>
-                                                            <textarea name="description" [(ngModel)]="agence.address" required
+                                                            <label>Adresse</label>
+                                                            <input type="text" name="description" [(ngModel)]="agence.address" required #title="ngModel" 
                                                                 class="form-control">
-                                                                </textarea>
+                                                                <span style=color:red *ngIf="!title.valid && title.touched">Adresse est obligatoire</span>
                                                         </div>
 
 
@@ -58,13 +61,17 @@
                                                         <div class="form-group col-lg-6">
                                                             <label>Email</label>
                                                             
-                                                                <input type="email"name="email" [(ngModel)]="agence.email"  required
-                                                                class="form-control" />
+                                                                <input type="email"name="email" [(ngModel)]="agence.email"  required 
+                                                                #title="ngModel" 
+                                                                class="form-control">
+                                                                <span style=color:red *ngIf="!title.valid && title.touched">Email est obligatoire</span>
                                                         </div>
                                                         <div class="form-group col-lg-6">
                                                             <label>RaisonSocial</label>
                                                                 <input type="text"name="raisonSocial" [(ngModel)]="agence.raisonSocial" required
-                                                                class="form-control" />
+                                                                #title="ngModel" 
+                                                                class="form-control">
+                                                                <span style=color:red *ngIf="!title.valid && title.touched">RaisonSocial est obligatoire</span>
                                                         </div>
                                                     </div>
                                                      
@@ -100,18 +107,18 @@
         
                                                 <div class="row">
                                                     <div class="form-group col-lg-6">
-                                                        <label>matricule</label>
+                                                        <label>Matricule</label>
                                                       
-                                                            <input type="nymber"name="matricule" [(ngModel)]="agence.matricule"
+                                                            <input type="nymber"name="matricule" [(ngModel)]="agence.matricule" 
                                                             class="form-control" />
                                                     </div>
                                                     <div class="form-group col-lg-6">
-                                                        <label>Titre</label>
+                                                        <label>Nom</label>
                                                         <input type="text" name="titre" [(ngModel)]="agence.name" required 
                                                             class="form-control" />
                                                     </div>
                                                     <div class="form-group col-lg-6">
-                                                        <label>Description</label>
+                                                        <label>Adresse</label>
                                                         <textarea name="description" [(ngModel)]="agence.address" required
                                                             class="form-control">
                                                             </textarea>
@@ -164,12 +171,12 @@
 <thead>
 <tr>
 <th>Matricule</th>
-<th>name</th>
-<th>email</th>
-<th>raisonSocial</th>
-<th>address</th>
-<th>createdAt</th>
-<th>updatedAt</th>
+<th>Nom</th>
+<th>Email</th>
+<th>RaisonSocial</th>
+<th>Address</th>
+<th>CreatedAt</th>
+<th>UpdatedAt</th>
 <th>Action</th>
 </tr>
 </thead>

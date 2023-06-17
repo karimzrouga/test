@@ -27,6 +27,8 @@ import { FilterPipe } from 'src/app/pipes/FilterPipe.pipe';
     CommonModule,SuperAdminModule,
     UserRoutingModule,
     FormsModule
+  ],exports:[
+    ShiftListComponent
   ]
 })
 export class UserModule { }
