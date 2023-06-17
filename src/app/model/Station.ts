@@ -4,4 +4,6 @@ export class Station{
     lieu!: string
     createdAt!:Date
     updatedAt!: Date
+    latitude!: number
+    longitude!: number
 }
