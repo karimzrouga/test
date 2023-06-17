@@ -96,13 +96,16 @@
                                                          <span style=color:red *ngIf="!lieu.valid && lieu.touched">ce champs est obligatoire</span>
                                                             
                                                     </div>
-                                                    <!--<div class="form-group col-lg-6">
-                                                        <label>Description</label>
-                                                        <textarea name="description" [(ngModel)]="role.description"
-                                                        required #roleName="ngModel"  class="form-control">
-                                                        <span style=color:red *ngIf="!description valid && description touched">ce champs est obligatoire </span>
-                                                     </textarea>
-                                                    </div>-->
+                                                    <div class="form-group col-lg-6">
+                                                        <label>Circuit</label>
+                                                        <select required class="form-control" id="DropdownOptions" name="type"
+                                                        (change)="getid($event)"  formControlName="type">
+                                                        <option *ngFor="let opt of circuits"
+                                                            [value]="opt.id">
+                                                            {{ opt.circuitName }}
+                                                        </option>
+                                                    </select>
+                                                    </div>
                                                 </div>
                                             
                                             </div>
