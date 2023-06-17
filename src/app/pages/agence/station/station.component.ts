@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Circuit } from 'src/app/model/Circuit';
 import { Station } from 'src/app/model/Station';
+import { CircuitsService } from 'src/app/services/Circuits.service';
 import { StationsService } from 'src/app/services/Stations.service';
 import Swal from 'sweetalert2';
 
@@ -18,26 +20,41 @@ export class StationComponent {
   addFormVisible: boolean = false;
   editFormVisible: boolean = false;
   stations! : Station[];
-
+  circuits! : Circuit[];
   totalstations! : number;
   total ! :any
+  idcircircuit!:number
   constructor(
     private stationsrvice:  StationsService,
-
+    private circuitsrvice:  CircuitsService,
     private toastr: ToastrService,
     private router: Router 
   ){ }
   ngOnInit(): void{
     this.getstations()
+    this.getallcircuit()
+  }
+  getallcircuit()
+  {
+    this.circuitsrvice.getCircuits().subscribe(data=>{
+      this.circuits=data
+    })
+  
+  }
+  getid(event :any)
+  {
+    this.idcircircuit=event.target.value
   }
 createstation(){
+  console.log(this.idcircircuit)
   this.hideEditForm()
-  
-  this.stationsrvice.createstation(this.station).subscribe(data=>{
+ 
+  this.stationsrvice.createstation(this.station,this.idcircircuit).subscribe(data=>{
     console.log(data)
     this.toastr.success("Station ajouter avec succès!")
     this.getstations()
     this.hideAddForm()
+   
   }, error=>{
     console.log(error);
     this.toastr.error ("Erreur, Serveur ne répond pas!")
@@ -114,14 +131,14 @@ showEditForm() {
   throw new Error('Method not implemented.');
 }
 
-  log(data: any) {
-    throw new Error('Method not implemented.');
-  }
-  hideAddForm() {
-    throw new Error('Method not implemented.');
-  }
-  hideEditForm() {
-    throw new Error('Method not implemented.');
-  }
 
+
+hideAddForm() {
+  this.addFormVisible = false;
+}
+
+
+hideEditForm() {
+  this.editFormVisible = false;
+}
 }

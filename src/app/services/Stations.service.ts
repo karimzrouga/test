@@ -20,9 +20,9 @@ export class StationsService {
 
   constructor(private http: HttpClient) {}
   
-createstation (station :Station ):Observable<any>
+createstation (station :Station , id :number ):Observable<any>
 {
-return this.http.post(this.baseUrl+"/Stations" ,station);
+return this.http.post(this.baseUrl+"/Stations/"+id ,station);
 
 
 }
