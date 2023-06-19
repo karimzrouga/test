@@ -158,14 +158,17 @@
 <td> <p>{{permission.createdAt| date : "MM/dd/yyyy hh:mm:ssa" }}</p></td>
 <td> <p> {{ permission.updatedAt | date : "MM/dd/yyyy hh:mm:ssa" }}</p></td>
 
-<td><button class="btn btn-sm btn-warning m-2"  (click)="editPermission(permission)">
-<i class="fas fa-check warning"></i>
-edit
+<td>
+    
+
+    <button class="btn btn-sm btn-warning m-2"  (click)="editPermission(permission)">
+<i class="fas fa-pen text-white"></i>
+
 </button>
 
 <button class="btn btn-sm btn-danger m-2" (click)="deletePermission(permission)">
-<i class="fas fa-trash"></i>
-delete
+<i class="fas fa-trash text-white"></i>
+
 </button>
 </td>
 

@@ -4,7 +4,7 @@ export class Circuit {
     id!: 1
     circuitName!: string
     cout!: number
-    stations!: Station[]
+    Stations!: number
 
         createdAt!:Date
         updatedAt!: Date

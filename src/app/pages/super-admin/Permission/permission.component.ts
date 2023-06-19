@@ -32,6 +32,7 @@ export class PermissionComponent {
  
  this.getPermissions()
   }
+  
 
  
   createPermission(){

@@ -9,9 +9,13 @@ import { AgancescComponent } from './agancesc/agancesc.component';
 import { StationComponent } from './station/station.component';
 import { HomeComponent } from 'src/app/home/home.component';
 import { GuardUserGuard } from 'src/app/services/guard-user.guard';
+import { ShiftListComponent } from '../user/shift/shift-list/shift-list.component';
+import { PlanificationComponent } from '../user/planifi/planification/planification.component';
+import { CotisationComponent } from '../user/coti/cotisation/cotisation.component';
+import { PlanificationParAgence } from 'src/app/model/PlanificationParAgence';
 
 const routes: Routes = [
- { path: 'responsabletransport',component:AgancescComponent , canActivate:[GuardUserGuard]  ,
+ { path: 'restrans',component:AgancescComponent , canActivate:[GuardUserGuard]  ,
  children :[
   {path:'agance' , component:ListAgenceComponent},
     {path:'circuit' , component:ListCircuitComponent},
@@ -19,9 +23,11 @@ const routes: Routes = [
     {path:'facturation',component:ListFacturationComponent},
     {path:'planifiagence',component:ListPlanifiagenComponent},
     {path:'vehicule' ,component:ListVehiculeComponent},
-   // { path: "**" ,component:HomeComponent},
+    {path: 'shift' , component:ShiftListComponent},
+    {path: 'planification' ,component:PlanificationComponent},
+    {path: 'cotisation' ,component:CotisationComponent}
  ]
- }
+ },  {path:'Psmanger/planifiagenceag',component:ListPlanifiagenComponent},
 ];
 
 @NgModule({

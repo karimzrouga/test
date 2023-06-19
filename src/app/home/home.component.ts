@@ -37,7 +37,7 @@ Validator(control: Userauth): boolean {
      
         if (datas !=null ) {
        
-        this.userser.savesession(datas.userId,datas.token,datas.role,datas.permissionId)
+        this.userser.savesession(datas.userId,datas.token,datas.role,datas.permissionId,datas.routes)
           this.invalidLogin = false;
           this.loginSuccess = true;
 

@@ -12,14 +12,17 @@ export class message
   providedIn: 'root'
 })
 export class StationsService {
+  filter(arg0: (e: any) => boolean) {
+    throw new Error('Method not implemented.');
+  }
   private baseUrl = "https://localhost:7102/api";
 
 
   constructor(private http: HttpClient) {}
   
-createstation (station :Station ):Observable<any>
+createstation (station :Station , id :number ):Observable<any>
 {
-return this.http.post(this.baseUrl+"/Stations" ,station);
+return this.http.post(this.baseUrl+"/Stations/"+id ,station);
 
 
 }

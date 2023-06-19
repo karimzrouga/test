@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserRoutingModule } from './user-routing.module';
 import { PlanificationComponent } from './planifi/planification/planification.component';
 import { ShiftListComponent } from './shift/shift-list/shift-list.component';
@@ -26,7 +26,10 @@ import { FilterPipe } from 'src/app/pipes/FilterPipe.pipe';
   imports: [
     CommonModule,SuperAdminModule,
     UserRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
+  ],exports:[
+    ShiftListComponent
   ]
 })
 export class UserModule { }

@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Circuit } from 'src/app/model/Circuit';
+import { Stat } from 'src/app/model/Stat';
 import { Station } from 'src/app/model/Station';
 import { CircuitsService } from 'src/app/services/Circuits.service';
 import { StationsService } from 'src/app/services/Stations.service';
@@ -23,7 +24,7 @@ export class ListCircuitComponent {
   Circuits!:Circuit [];
   stations!:Station [];
   totalCircuit !: number;
-   
+  term: any ="all";
   constructor(
     private  circuitsrvice: CircuitsService,
     private  stationsrvice: StationsService,
@@ -37,8 +38,13 @@ export class ListCircuitComponent {
 
  this.getCircuits()
  this.getstations()
-  }
 
+
+  }
+  public filterCallback = (item: any) => {
+    
+    return this.stationsrvice.filter(e=> e.stationsId==this.term)
+  };
 
   getstations()
   {
@@ -46,7 +52,30 @@ export class ListCircuitComponent {
       this.stations=data
     })
   }
+  infoStation(Station: Station) {
  
+    this.stationsrvice.findstationById(Station.id).subscribe(data=>{
+      Swal.fire({
+        icon: 'info',
+        title: data.lieu,
+        html:
+          '<div class="swal-info">' +
+          ' <p><b>Matricule:</b> <span>' + data.lieu + '</span></p>' +
+         
+          '</div>',
+        customClass: {
+          container: 'swal-container',
+          title: 'swal-title',
+          htmlContainer: 'swal-html-container',
+        }
+      });
+     
+    
+    });
+  }
+  getid(event :any){
+   // this.stations.id=event.target.value;
+     }
   createcircuit (){
 
 this.circuitsrvice.createCircuit(this.circuit).subscribe(data=>{

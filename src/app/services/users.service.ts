@@ -19,7 +19,7 @@ export class usersService {
   
 createUser (User :User ):Observable<any>
 {
-return this.http.post(this.baseUrl+"/users" ,User);
+return this.http.post<User>(this.baseUrl+"/users" ,User);
 
 
 }

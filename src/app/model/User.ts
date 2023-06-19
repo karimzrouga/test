@@ -8,7 +8,7 @@ export class User {
    email  !:  string 
    password  !:  string  
    matricule  !:  string  
-  
+   adresse  !:  string  
    roleId  !:  number
    role  !: Role
    permissionId  !:  number

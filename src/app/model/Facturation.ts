@@ -1,4 +1,3 @@
-import { Agence } from "./Agence"
 export class Facturation {
     id!:number
     dateFacturation!:Date
@@ -7,6 +6,7 @@ export class Facturation {
     agenceId!:number
   createdAt!:Date
         updatedAt!: Date
+  pdfUrl: any
  
     
 }

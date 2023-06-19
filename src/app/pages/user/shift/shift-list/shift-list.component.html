@@ -18,7 +18,7 @@
                             <div class="col col-lg-2">
                                 <button class="btn btn-primary btn-sm float-right"  (click)="showAddForm()" >
                                     <i class="fas fa-plus"></i>
-                                    Add 
+                                   
                                 </button>
                             </div>
 
@@ -129,8 +129,8 @@
 <th>Temps d'entrer</th>
 <th>Temps de sortie</th>
 <!--<th>description</th>-->
-<th>createdAt</th>
-<th>updatedAt</th>
+<th>CreatedAt</th>
+<th>UpdatedAt</th>
 <th>Action</th>
 </tr>
 </thead>
@@ -142,11 +142,11 @@
 <td> <p>{{f.createdAt| date : "MM/dd/yyyy hh:mm:ssa" }}</p></td>
 <td> <p> {{f.updatedAt | date : "MM/dd/yyyy hh:mm:ssa" }}</p></td>
 <td><button class="btn btn-sm btn-warning m-2"  (click)="editshift(shift)">
-<i class="fas fa-check warning"></i>
+<i class="fas fa-pen text-white"></i>
 </button>
 
 <button class="btn btn-sm btn-danger m-2" (click)="deleteshift(shift)">
-<i class="fas fa-trash"></i>
+<i class="fas fa-trash text-white"></i>
 </button>
 </td>
 

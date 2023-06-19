@@ -55,7 +55,7 @@ import { ProfileComponent } from './profile/profile.component';
     NgChartsModule,
     UserModule,
     SuperAdminModule,
-   
+    ReactiveFormsModule
   
   ],
   providers: [GuardUserGuard,

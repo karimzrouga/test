@@ -6,7 +6,7 @@
      <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">cotisation</h1>
+                <h1 class="mt-4">Cotisation</h1>
                 
                 <div class="card mb-4">
                     <div class="card-header">
@@ -18,7 +18,7 @@
                             <div class="col col-lg-2">
                                 <button class="btn btn-primary btn-sm float-right"  (click)="showAddForm()" >
                                     <i class="fas fa-plus"></i>
-                                    Add
+                                  
                                     
                                 </button>
                             </div>
@@ -134,8 +134,8 @@
 <thead>
 <tr>
 <th>UserId</th>
-<th>montant</th>
-<th>mois</th>
+<th>Montant</th>
+<th>Mois</th>
 
 <th>Action</th>
 </tr>
@@ -150,13 +150,13 @@
 <td> <p> {{cotisation.updatedAt | date : "MM/dd/yyyy hh:mm:ssa" }}</p></td>
 
 <td><button class="btn btn-sm btn-warning m-2"  (click)="editCotisation(cotisation)">
-<i class="fas fa-check warning"></i>
-edit
+<i class="fas fa-pen text-white"></i>
+
 </button>
 
 <button class="btn btn-sm btn-danger m-2" (click)="deleteCotisation(cotisation)">
-<i class="fas fa-trash"></i>
-delete
+<i class="fas fa-trash text-white"></i>
+
 </button>
 </td>
 

@@ -16,7 +16,7 @@ export class HttpInterceptors implements HttpInterceptor{
     if (this.authenticationService.isLoggedIn())
     {
     let token :any =sessionStorage.getItem('authenticatedUser');
-     console.log(token)
+   //  console.log(token)
 
        const authReq = request.clone({
        headers: new HttpHeaders({
@@ -24,7 +24,7 @@ export class HttpInterceptors implements HttpInterceptor{
            Authorization: `Bearer ${token}`,
        }) 
    });
-   console.log(request);   
+   //console.log(request);   
    return next.handle(authReq);
  }
 else
