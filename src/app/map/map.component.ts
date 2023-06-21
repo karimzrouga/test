@@ -7,6 +7,7 @@ import { Station } from '../model/Station';
 import { Circuit } from '../model/Circuit';
 import { Marker } from '../model/Marker';
 import 'leaflet-routing-machine';
+import { PlanificationsService } from '../services/Planification.service';
 
 
 
@@ -25,8 +26,34 @@ export class MapComponent implements OnInit {
   constructor(
     private StationsService: StationsService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    palni:PlanificationsService
   ) {}
+
+
+
+
+
+  searchByLocation(event: any) {
+    const searchTerm = event.target.value.toLowerCase().trim();
+  
+    if (searchTerm === '') {
+      this.toastr.warning('Please enter a search term.', 'Empty Search');
+      return;
+    }
+  
+    const matchedStation = this.stations.find(station => station.lieu.toLowerCase() === searchTerm);
+  
+    if (!matchedStation) {
+      this.toastr.info('No matching station found.', 'No Results');
+      return;
+    }
+    this.map.setView([matchedStation.latitude, matchedStation.longitude], 12);
+
+
+  }
+  
+  
   loadmarkers() {
     this.StationsService.getstations().subscribe(data => {
       this.stations = data;

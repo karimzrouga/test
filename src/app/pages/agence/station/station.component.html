@@ -6,9 +6,10 @@
     </div>
      <div id="layoutSidenav_content">
         <main>
+            <div id="map"></div>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Station</h1>
-                
+                <h1 class="mt-4">Stations</h1>
+             
                 <div class="card mb-4">
                     <div class="card-header">
                         <div class="row">
@@ -23,7 +24,7 @@
                     
                                 </button>
                             </div>
-
+                        
 
                             <div class="row" *ngIf="addFormVisible">
                                 <div class="card mb-4">
@@ -32,17 +33,30 @@
                                     </div>
                                     <div class="card-body">
             
-                                        <form (ngSubmit)="createstation();" method="POST">
+                                        <form (ngSubmit)="createstation(); ">
                                             <div class="card card-default">
-            
+        
                                                 <div class="card-body">
             
                                                     <div class="row">
                                                         <div class="form-group col-lg-6">
                                                             <label>Lieu</label>
-                                                            <input type="text" name="lieu" [(ngModel)]="station.lieu"
-                                                            required #lieu="ngModel" class="form-control">
-                                                            <span style=color:red *ngIf="!lieu.valid && lieu.touched">Lieu est obligatoire</span>
+                                                            <input readonly type="text" name="lieu" [(ngModel)]="station.lieu"
+                                                            required #lieu="ngModel" class="form-control" />
+                                                                
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label>longitude</label>
+                                                            <input readonly type="text" name="longitude" [(ngModel)]="station.longitude"
+                                                            required #longitude="ngModel" class="form-control" />
+                                                                
+                                                        </div>
+                                                        <div class="form-group col-lg-6">
+                                                            <label>
+                                                                latitude</label>
+                                                            <input readonly type="text" name="latitude" [(ngModel)]="station.latitude"
+                                                            required #latitude="ngModel" class="form-control" />
+                                                                
                                                         </div>
                                                         <div class="form-group col-lg-6">
                                                             <label>Circuit</label>
@@ -55,9 +69,7 @@
                                                         </select>
                                                         </div>
                                                     </div>
-                                               
-                                                   
-                                                       
+                                                
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="row float-right">
@@ -82,8 +94,7 @@
                             <div class="row" *ngIf="editFormVisible">
                             <div class="card mb-4">
                                 <div class="card-body">
-        
-                                    <form (ngSubmit)="updatestation(station)" method="POST">
+                                    <form (ngSubmit)="updatestation(station)" >
                                         <div class="card card-default">
         
                                             <div class="card-body">
@@ -91,8 +102,21 @@
                                                 <div class="row">
                                                     <div class="form-group col-lg-6">
                                                         <label>Lieu</label>
-                                                        <input type="text" name="lieu" [(ngModel)]="station.lieu"
+                                                        <input type="text" readonly name="lieu" [(ngModel)]="station.lieu"
                                                         required #lieu="ngModel" class="form-control" />
+                                                            
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label>longitude</label>
+                                                        <input type="text" readonly name="longitude" [(ngModel)]="station.longitude"
+                                                        required #longitude="ngModel" class="form-control" />
+                                                            
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label>
+                                                            latitude</label>
+                                                        <input type="text" readonly name="latitude" [(ngModel)]="station.latitude"
+                                                        required #latitude="ngModel" class="form-control" />
                                                             
                                                     </div>
                                                     <div class="form-group col-lg-6">
@@ -139,16 +163,21 @@
 <thead>
 <tr>
 <th>Lieu</th>
-<!--<th>description</th>
-
+<th> Location</th>
 <th>createdAt</th>
 <th>updatedAt</th>
-<th>Action</th>-->
+<th>Action</th>
 </tr>
 </thead>
 <tbody> 
 <tr *ngFor="let st of stations | slice:(currentPage - 1) * itemsPerPAge : currentPage * itemsPerPAge "   >
 <td> <p>{{st.lieu}}</p></td>
+<td>
+    <a [href]="'https://www.google.com/maps?q=' + st.latitude + ',' + st.longitude" class="map-link">
+      <i class="fas fa-map-marker-alt"></i>
+    </a>
+
+</td>
 <!--<td> <p>{{role.description}}</p></td>-->
 <td> <p>{{st.createdAt| date : "MM/dd/yyyy hh:mm:ssa" }}</p></td>
 <td> <p> {{ st.updatedAt | date : "MM/dd/yyyy hh:mm:ssa" }}</p></td>

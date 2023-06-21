@@ -20,7 +20,7 @@ export class PlanificationsService {
   
 createplanifications(planification :Planification ):Observable<any>
 {
-return this.http.post(this.baseUrl+"/Planification" ,planification);
+return this.http.post(this.baseUrl+"/ListePlanifications" ,planification);
 
 
 }

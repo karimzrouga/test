@@ -8,7 +8,7 @@ capacite!: number
 agenceId!: number
 immatricule!: string
 stations!: Station[]
-
+agence!:Agence
 createdAt!:Date
 updatedAt!: Date
 

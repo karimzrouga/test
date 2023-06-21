@@ -5,7 +5,7 @@ export class Circuit {
     circuitName!: string
     cout!: number
     Stations!: number
-
+    km!: number
         createdAt!:Date
         updatedAt!: Date
     }

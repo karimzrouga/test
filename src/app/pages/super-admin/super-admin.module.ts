@@ -6,7 +6,7 @@ import { PermissionComponent } from './Permission/permission.component';
 import { ListRoleComponent } from './Roles/list-role.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminfooterComponent } from '../layout/adminfooter/adminfooter.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminheaderComponent } from '../layout/adminheader/adminheader.component';
 import { AdminsidebarComponent } from '../layout/adminsidebar/adminsidebar.component';
 
@@ -23,7 +23,7 @@ import { AdminsidebarComponent } from '../layout/adminsidebar/adminsidebar.compo
   ],
   imports: [
     CommonModule,
-    SuperAdminRoutingModule,      FormsModule
+    SuperAdminRoutingModule,      FormsModule,ReactiveFormsModule,
   ],
   exports: [
     AdminheaderComponent,

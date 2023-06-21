@@ -60,9 +60,7 @@ edit()
  
 
 console.log(this.user)
-this.user.cotisations=[]
-this.user.role=new Role()
-this.user.permission=new Permission()
+
     this.Userservice.updtaeUser(this.user ,this.user.id).subscribe(data=> 
       { 
                   console.log(data)

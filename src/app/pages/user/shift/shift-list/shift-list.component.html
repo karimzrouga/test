@@ -6,14 +6,14 @@
      <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <h1 class="mt-4">Facturation</h1>
+                <h1 class="mt-4">Shifts</h1>
                 
                 <div class="card mb-4">
                     <div class="card-header">
                         <div class="row">
                             <div class="col col-lg-10">
                                 <i class="fas fa-table me-1"></i>
-                                Liste des facturations
+                                Liste des Shifts
                             </div>
                             <div class="col col-lg-2">
                                 <button class="btn btn-primary btn-sm float-right"  (click)="showAddForm()" >
@@ -141,11 +141,11 @@
 <!--<td> <p>{{f.description}}</p></td>-->
 <td> <p>{{f.createdAt| date : "MM/dd/yyyy hh:mm:ssa" }}</p></td>
 <td> <p> {{f.updatedAt | date : "MM/dd/yyyy hh:mm:ssa" }}</p></td>
-<td><button class="btn btn-sm btn-warning m-2"  (click)="editshift(shift)">
+<td><button class="btn btn-sm btn-warning m-2"  (click)="editshift(f)">
 <i class="fas fa-pen text-white"></i>
 </button>
 
-<button class="btn btn-sm btn-danger m-2" (click)="deleteshift(shift)">
+<button class="btn btn-sm btn-danger m-2" (click)="deleteshift(f)">
 <i class="fas fa-trash text-white"></i>
 </button>
 </td>

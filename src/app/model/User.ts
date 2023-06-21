@@ -19,7 +19,7 @@ export class User {
    shiftId  !: number
    token  !:  string  
    salaire  !: number 
-   cotisations  !: Cotisation[]
+  
    createdAt!:Date
         updatedAt!: Date
   

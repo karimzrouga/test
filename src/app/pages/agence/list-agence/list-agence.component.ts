@@ -1,5 +1,6 @@
 import { Agence } from './../../../model/Agence';
 import { Component } from '@angular/core';
+import { FormGroup,  FormControl, Validators, FormRecord} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Permission } from 'src/app/model/Permission';
@@ -13,13 +14,17 @@ import Swal from 'sweetalert2';
   styleUrls: ['./list-agence.component.css']
 })
 export class ListAgenceComponent {
-
+  total !:any 
+  currentPage :any = 1;
+  itemsPerPage :any = 10;
   addFormVisible: boolean = false;
   editFormVisible: boolean = false;
   agences!: Agence[];
   agence: Agence= new Agence();
   totalagences!: number;
-   permision!:Permission
+   permision!:Permission;
+   agenceFrom ! : FormGroup;
+ 
   constructor(
     private  agencesrvice: AgencesService,
      private perm :PermissionsService,
@@ -29,10 +34,20 @@ export class ListAgenceComponent {
   ) { }
 
   ngOnInit(): void {
+    this.agenceFrom = new FormGroup({
+      matricule: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
+      name: new FormControl('', Validators.required),
+      address: new FormControl(''),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      raisonSocial: new FormControl('', Validators.required)
+    });
+    
     this. getperm()
+    this.getagences()
 
 
   }
+
 getperm()
 { const id=sessionStorage.getItem("permissionId")
   this.perm.findpermissionById(id).subscribe(data=>{
@@ -44,7 +59,7 @@ getperm()
 }
  
   createagence(){
-    
+    this.agence=this.agenceFrom.value
       this.agencesrvice.createAgence(this.agence).subscribe(data=>{
         console.log(data)
         this.toastr.success("agence ajouter avec succès!")
@@ -70,12 +85,13 @@ getperm()
         console.log(data.length)
         this.agences= data;
         this.totalagences = data.length;
+        this.total= this.totalagences/10
       }else{
         this.totalagences = 0;
         this.agences = [];
       }
     }, error => {
-      this.toastr.warning("Serveur ne répond pas!")
+      this.toastr.warning("Erreur,Serveur ne répond pas!")
     });
   }else{
 
@@ -93,7 +109,7 @@ getperm()
     if(this.permision.title.toLocaleLowerCase().includes("delete"))
     {
       this.agencesrvice.deleteAgence(agence.id).subscribe(data => {
-        this.toastr.warning("Agence supprimée!")
+        this.toastr.success("Agence supprimée!")
       
         this.getagences()
         this.hideAddForm()
@@ -120,9 +136,18 @@ getperm()
     this.gotoTop()
     this.agencesrvice.findAgenceById(agence.id).subscribe(data=>{
       this.agence = data;
-      this.showEditForm()
+      this.agenceFrom.setValue({
+        matricule:this.agence.matricule ,
+        name: this.agence.name ,
+        address: this.agence.address ,
+        email: this.agence.email,
+        raisonSocial:this.agence.raisonSocial
+      })
+   console.log(this.agenceFrom.value)
     
     });
+    this.showEditForm()
+    this.gotoTop()
   }
 updateagence(agence: Agence) {
    
@@ -155,11 +180,7 @@ updateagence(agence: Agence) {
     
    
   }
-  hideAddForm() {
-    
-    this.addFormVisible = false;
-  }
-
+  
   showEditForm() {
 
     if(this.permision.title.toLocaleLowerCase().includes("update"))
@@ -179,6 +200,11 @@ updateagence(agence: Agence) {
     
    
   }
+  hideAddForm() {
+    
+    this.addFormVisible = false;
+  }
+
   hideEditForm() {
     this.editFormVisible = false;
 

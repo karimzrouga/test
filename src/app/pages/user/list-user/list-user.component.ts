@@ -135,6 +135,7 @@ try {
           //  console.log(data.length)
             this.users= data;
             this.totalusers = data.length;
+            this.total = this.totalusers / 10
           }else{
             this.totalusers = 0;
             this.users = [];

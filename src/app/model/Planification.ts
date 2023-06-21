@@ -9,5 +9,6 @@ export class Planification {
     users!: User[]
     createdAt!:Date
     updatedAt!: Date
+  userId: any
 
 }

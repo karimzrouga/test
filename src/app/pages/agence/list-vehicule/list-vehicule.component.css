@@ -89,4 +89,11 @@ select {
   margin-bottom: 10px;
   float: right;
 }
- 
+.error-message {
+  margin-top: 5px;
+}
+
+.error-text {
+  color: red;
+  font-size: 12px;
+}

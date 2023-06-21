@@ -13,6 +13,7 @@ export class Agence {
     PlanificationParAgences!:PlanificationParAgence []
     createdAt !: Date
     updatedAt!: Date
+  nom: any
 
     
 }

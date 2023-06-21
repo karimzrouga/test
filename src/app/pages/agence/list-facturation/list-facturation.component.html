@@ -3,11 +3,11 @@
     <div id="layoutSidenav_nav">
         <app-adminsidebar></app-adminsidebar>
     </div>
-     <div id="layoutSidenav_content">
+    <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
                 <h1 class="mt-4">Facturation</h1>
-                
+
                 <div class="card mb-4">
                     <div class="card-header">
                         <div class="row">
@@ -15,11 +15,11 @@
                                 <i class="fas fa-table me-1"></i>
                                 Liste des facturations
                             </div>
-                       
+
                             <div class="col col-lg-2">
-                                <button class="btn btn-primary btn-sm float-right"  (click)="showAddForm()" >
+                                <button class="btn btn-primary btn-sm float-right" (click)="showAddForm()">
                                     <i class="fas fa-plus"></i>
-                               
+
                                 </button>
                             </div>
 
@@ -27,104 +27,122 @@
                             <div class="row" *ngIf="addFormVisible">
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        
+
                                     </div>
                                     <div class="card-body">
-            
-                                        <form (ngSubmit)="createFacturation();" method="POST">
+
+                                        <form (ngSubmit)="createFacturation();" [formGroup]="FacturationForm">
                                             <div class="card card-default">
-            
+
                                                 <div class="card-body">
                                                     <div class="form-group col-lg-6">
                                                         <label>DateFacturation</label>
-                                                        <input type="date" [(ngModel)]="facturation.dateFacturation"
-                                                        required #title="ngModel" 
-                                                        class="form-control" />
-                                                        <span style=color:red *ngIf="!title.valid && title.touched">Date est obligatoire</span>
-                                                </div>
+                                                        <input type="date" formControlName="DateFacturation"
+                                                            class="form-control" />
+                                                        <div class="error-message"
+                                                            *ngIf="FacturationForm.get('DateFacturation')?.invalid && (FacturationForm.get('DateFacturation')?.dirty ||FacturationForm.get('DateFacturation')?.touched)">
+                                                            <div class="error-text"
+                                                                *ngIf="FacturationForm.get('DateFacturation')?.errors?.['required']">
+                                                                Date is required.</div>
+                                                        </div>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="form-group col-lg-6">
-                                                            <label> Montant</label>
-                                                            <input  [(ngModel)]="facturation.montant" 
-                                                            name="montant" type="number" required #montant="ngModel" 
-                                                            class="form-control" />
-                                                            <span style=color:red *ngIf="!montant.valid && montant.touched">Montant est obligatoire</span>
-                                                    </div>
+                                                            <label>Montant</label>
+                                                            <input type="number" formControlName="montant"
+                                                                class="form-control" />
+                                                            <div class="error-message"
+                                                                *ngIf="FacturationForm.get('montant')?.invalid && (FacturationForm.get('montant')?.dirty ||FacturationForm.get('montant')?.touched)">
+                                                                <div class="error-text"
+                                                                    *ngIf="FacturationForm.get('montant')?.errors?.['required']">
+                                                                    montant is required.</div>
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group col-lg-6">
-                                                          
-                                                            <label>Devise</label>
-                                                            <input type="text"name="description" [(ngModel)]="facturation.description"
-                                                            required #description="ngModel"  required #devis="ngModel" 
-                                                            class="form-control" />
-                                                            <span style=color:red *ngIf="!devis.valid && devis.touched">Devis est obligatoire</span>
-                                                    </div>
+
+                                                            <label>Description</label>
+                                                            <input type="text" formControlName="description"
+                                                                class="form-control" />
+                                                            <div class="error-message"
+                                                                *ngIf="FacturationForm.get('description')?.invalid && (FacturationForm.get('description')?.dirty ||FacturationForm.get('description')?.touched)">
+                                                                <div class="error-text"
+                                                                    *ngIf="FacturationForm.get('description')?.errors?.['required']">
+                                                                    Description is required.</div>
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group col-lg-6">
-                                                        <label>Agence</label>
-                                                        <select required class="form-control" id="DropdownOptions" name="type"
-                                                        (change)="getid($event)"  formControlName="type">
-                                                        <option *ngFor="let opt of agences"
-                                                            [value]="opt.id">
-                                                            {{ opt.name }}
-                                                        </option>
-                                                    </select>
+                                                            <label>Agence</label>
+                                                            <select required class="form-control" id="DropdownOptions"
+                                                                name="agenceId" formControlName="agenceId">
+                                                                <option *ngFor="let opt of agences" [value]="opt.id">
+                                                                    {{ opt.name }}
+                                                                </option>
+                                                            </select>
+                                                            <div class="error-message"
+                                                                *ngIf="FacturationForm.get('agenceId')?.invalid && (FacturationForm.get('agenceId')?.dirty || FacturationForm.get('agenceId')?.touched)">
+                                                                <div class="error-text"
+                                                                    *ngIf="FacturationForm.get('agenceId')?.errors?.['required']">
+                                                                    Agence is required.</div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="row float-right">
                                                         <div class="col">
-                                                            <button type="reset" class="btn btn-primary  btn-sm m-3"
+                                                            <button type="reset" class="btn btn-primary btn-sm m-3"
                                                                 data-dismiss="modal"
                                                                 (click)="hideAddForm()">Annuler</button>
                                                             <button type="submit" class="btn btn-success btn-sm"
-                                                                data-dismiss="modal">Enregistrer</button>
+                                                                data-dismiss="modal"
+                                                                [disabled]="FacturationForm.invalid">Enregistrer</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
-            
-            
-            
-            
+
+
+
+
                                     </div>
                                 </div>
                             </div>
                             <div class="row" *ngIf="editFormVisible">
                                 <div class="card mb-4">
                                     <div class="card-body">
-            
+
                                         <form (ngSubmit)="updateFacturation(facturation)" method="POST">
                                             <div class="card card-default">
-            
+
                                                 <div class="card-body">
-            
+
                                                     <div class="row">
                                                         <div class="form-group col-lg-6">
                                                             <label> Montant</label>
-                                                            <input  [(ngModel)]="facturation.montant" 
-                                                            name="montant" type="number"
-                                                            class="form-control" />
+                                                            <input [(ngModel)]="facturation.montant" name="montant"
+                                                                type="number" class="form-control" />
                                                         </div>
                                                         <div class="form-group col-lg-6">
-                                                          
+
                                                             <label>Device</label>
-                                                            <input type="text"name="description" [(ngModel)]="facturation.description"
-                                                            required #description="ngModel"  class="form-control" /> 
+                                                            <input type="text" name="description"
+                                                                [(ngModel)]="facturation.description" required
+                                                                #description="ngModel" class="form-control" />
                                                         </div>
                                                         <div class="form-group col-lg-6">
                                                             <label>Agence</label>
-                                                            <select     required class="form-control" id="DropdownOptions" name="type"
-                                                            (change)="getid($event)"  formControlName="type">
-                                                            <option *ngFor="let opt of agences"
-                                                                [value]="opt.id">
-                                                                {{ opt.name }}
-                                                            </option>
-                                                        </select>
+                                                            <select required class="form-control" id="DropdownOptions"
+                                                                name="type" (change)="getid($event)"
+                                                                formControlName="type">
+                                                                <option *ngFor="let opt of agences" [value]="opt.id">
+                                                                    {{ opt.name }}
+                                                                </option>
+                                                            </select>
                                                         </div>
-                                                   
+
                                                     </div>
-                                                
+
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="row float-right">
@@ -139,14 +157,13 @@
                                                 </div>
                                             </div>
                                         </form>
-            
-            
-            
-            
+
+
+
                                     </div>
                                 </div>
                             </div>
-        
+
 
 
 
@@ -165,53 +182,71 @@
                                 </option>
                             </select>
                         </div>
-                        
+
                     </div>
-                    
-                    
-                    
-<table class="table table-striped table-bordered">
-<thead>
-<tr>
-<th>DateFacturation</th>
-<th>Montant</th>
-<th>Devise</th>
-<th>createdAt</th>
-<th>updatedAt</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr *ngFor="let f of Facturations | filter: term : 'agenceId' | slice:(currentPage - 1) * itemsPerPage : currentPage * itemsPerPage ">
-<td> <p>{{f.dateFacturation}}</p></td>
-<td> <p>{{f. montant}}</p></td>
-<td> <p>{{f.description}}</p></td>
-<td> <p>{{f.createdAt| date : "MM/dd/yyyy hh:mm:ssa" }}</p></td>
-<td> <p> {{f.updatedAt | date : "MM/dd/yyyy hh:mm:ssa" }}</p></td>
-<td>
-    <button class="btn btn-sm btn-info m-2"  (click)="infoFacturation(f)">
-        <i class="fas fa-info-circle text-white"></i>
-        </button>
-    <button class="btn btn-sm btn-warning m-2"  (click)="editFacturation(f)">
-        <i class="fas fa-pen text-white"></i>
-        
-</button>
 
-<button class="btn btn-sm btn-danger m-2" (click)="deleteFacturation(f)">
-    <i class="fas fa-trash text-white"></i>
-</button>
-</td>
 
-</tbody>
-</table>
-<div><button  *ngIf="currentPage >1" class="previous-button" (click)="currentPage = currentPage - 1">Précédent</button>
-    <button   *ngIf="currentPage < total"  class="next-button" (click)="currentPage = currentPage + 1">Suivant</button></div>
+
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>DateFacturation</th>
+                                <th>Montant</th>
+                                <th>Devise</th>
+                                <th>createdAt</th>
+                                <th>updatedAt</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let f of Facturations | filter: term : 'agenceId' | slice:(currentPage - 1) * itemsPerPage : currentPage * itemsPerPage ">
+                                <td>
+                                    <p>{{f.dateFacturation}}</p>
+                                </td>
+                                <td>
+                                    <p>{{f. montant}}</p>
+                                </td>
+                                <td>
+                                    <p>{{f.description}}</p>
+                                </td>
+                                <td>
+                                    <p>{{f.createdAt| date : "MM/dd/yyyy hh:mm:ssa" }}</p>
+                                </td>
+                                <td>
+                                    <p> {{f.updatedAt | date : "MM/dd/yyyy hh:mm:ssa" }}</p>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-secondary m-2" (click)="generatePDF(f)">
+                                        <i class="far fa-file-pdf text-white"></i>
+                                    </button>
+
+                                    <button class="btn btn-sm btn-info m-2" (click)="infoFacturation(f)">
+                                        <i class="fas fa-info-circle text-white"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-warning m-2" (click)="editFacturation(f)">
+                                        <i class="fas fa-pen text-white"></i>
+
+                                    </button>
+
+                                    <button class="btn btn-sm btn-danger m-2" (click)="deleteFacturation(f)">
+                                        <i class="fas fa-trash text-white"></i>
+                                    </button>
+                                </td>
+
+                        </tbody>
+                    </table>
+                    <div><button *ngIf="currentPage >1" class="previous-button"
+                            (click)="currentPage = currentPage - 1">Précédent</button>
+                        <button *ngIf="currentPage < total" class="next-button"
+                            (click)="currentPage = currentPage + 1">Suivant</button>
+                    </div>
 
                 </div>
-                
-                
+
+
             </div>
         </main>
-        
+
     </div>
 </div>

@@ -1,5 +1,7 @@
 import { Station } from './../../../model/Station';
 import { Circuit } from 'src/app/model/Circuit';
+import { FormGroup,   FormRecord} from '@angular/forms';
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +11,8 @@ import { VehiculesService } from 'src/app/services/Vehicules.service';
 import Swal from 'sweetalert2';
 import { Agence } from 'src/app/model/Agence';
 import { AgencesService } from 'src/app/services/Agences.service';
+import { Permission } from 'src/app/model/Permission';
+import { PermissionsService } from 'src/app/services/Permissions.service';
 
 @Component({
   selector: 'app-list-vehicule',
@@ -24,10 +28,12 @@ export class ListVehiculeComponent {
   editFormVisible: boolean = false;
   Vehicules!: Vehicule[];
 
+  permision!:Permission;
+
   totalroles!: number;
   totalvehicules!: number 
   builder: any;
-  formulaire: any;
+
  
   agences!: Agence[];
    
@@ -35,13 +41,16 @@ export class ListVehiculeComponent {
     private  vehiculesrvice: VehiculesService,
     private  agenceser : AgencesService,
     private toastr: ToastrService,
-    private router: Router
-    
+    private perm :PermissionsService,
+    private router: Router,
+
+
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
+  
+  this. getperm()
 
- this.getVehicules()
  this.  getallagence()
   }
   getid(event :any){
@@ -53,25 +62,35 @@ export class ListVehiculeComponent {
     this.agences=data;
   })
 }
+getperm()
+{ const id=sessionStorage.getItem("permissionId")
+  this.perm.findpermissionById(id).subscribe(data=>{
+ this.permision=data;
+ //console.log(this.permision)
+ this.getVehicules()
+  })
  
+}
   createVehicule(){
     this.hideEditForm()
-    
+ 
   this.vehiculesrvice.createvehicule(this.vehicule).subscribe(data=>{
       console.log(data)
       this.toastr.success("vehicule ajouter avec succès!")
+     this.vehicule=new Vehicule();
       this.getVehicules()
       this.hideAddForm()
     }, error=>{
       console.log(error);
       this.toastr.error("Erreur, Serveur ne répond pas!")
     });
-    this.vehicule=new Vehicule();
-    
+   
 
   }
 
   getVehicules(){
+    if(this.permision.title.toLocaleLowerCase().includes("consulte"))
+    {
     this.vehicule = new Vehicule();
     this.vehiculesrvice.getvehicule().subscribe(data => {
       if(data != null){
@@ -86,8 +105,19 @@ export class ListVehiculeComponent {
     }, error => {
       this.toastr.warning("Serveur ne répond pas!")
     });
+  }else{
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Consulte Permission  Error Contacté Administrateur !',
+     
+    })
+  }
   }
   deletevehicules(vehicule: Vehicule) {
+    if(this.permision.title.toLocaleLowerCase().includes("delete"))
+    {
     Swal.fire({
       title: 'Are you sure want to remove?',
       text: 'You will not be able to recover this Role!',
@@ -110,7 +140,18 @@ export class ListVehiculeComponent {
     })
   }
 });
+  }else
+  {
+  
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'DELETE Permission  Error Contacté Administrateur !',
+     
+    })
   }
+
+}
   infovehicule(vehicule: Vehicule) {
     let stations ="";
     vehicule.stations.forEach(element => {
@@ -144,7 +185,9 @@ export class ListVehiculeComponent {
     this.hideAddForm()
     this.vehiculesrvice.findvehicleById(vehicule.id).subscribe(data=>{
       this.vehicule = data;
+    
       this.showEditForm()
+      this.gotoTop()
     
     });
   }
@@ -162,16 +205,45 @@ updatevehicule(vehicule: Vehicule) {
     });
   }
   showAddForm() {
+    if(this.permision.title.toLocaleLowerCase().includes("create"))
+    {
     this.addFormVisible = true;
    
+  }else
+  {
+ 
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Create Permission  Error Contacté Administrateur !',
+     
+    })
   }
+  
+ 
+}
   hideAddForm() {
     this.addFormVisible = false;
   }
 
   showEditForm() {
+    if(this.permision.title.toLocaleLowerCase().includes("update"))
+    {
     this.editFormVisible = true;
+  }else
+  {
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Update Permission  Error Contacté Administrateur !',
+     
+    })
+
   }
+  
+ 
+}
   hideEditForm() {
     this.editFormVisible = false;
   }

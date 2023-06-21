@@ -116,3 +116,11 @@ select option:checked {
   color: #fff;
   /* ... */
 }
+.error-message {
+    margin-top: 5px;
+  }
+  
+  .error-text {
+    color: red;
+    font-size: 12px;
+  }

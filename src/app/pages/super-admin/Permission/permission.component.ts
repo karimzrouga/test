@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { PermissionsService } from 'src/app/services/Permissions.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-permission',
@@ -19,6 +21,7 @@ export class PermissionComponent {
   permission: Permission= new Permission();
   totalPermissions!: number;
   datas: ReadonlyArray<string> = [ "Delete", "Update", "Create", "Consulte"];
+  permissionForm!: FormGroup;
   checkedItems: string[] = [];
   constructor(
     private  Permissionsrvice: PermissionsService,
@@ -29,24 +32,29 @@ export class PermissionComponent {
   ) { }
 
   ngOnInit(): void {
- 
+    this.permissionForm = new FormGroup({
+      description: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+      title: new FormControl('', [Validators.required]),
+    });
  this.getPermissions()
   }
   
 
  
   createPermission(){
- 
+    this.permission=this.permissionForm.value
+    console.log(this.permission)
   this.Permissionsrvice.createpermissions(this.permission).subscribe(data=>{
       console.log(data)
       this.toastr.success("Permission ajouter avec succès!")
+      this.permission=new Permission();
       this.getPermissions()
       this.hideAddForm()
     }, error=>{
       console.log(error);
       this.toastr.error("Erreur, Serveur ne répond pas!")
     });
-    this.permission=new Permission();
+   
   
 
   }
@@ -58,6 +66,7 @@ export class PermissionComponent {
         console.log(data.length)
         this.Permissions= data;
         this.totalPermissions = data.length;
+        this.total = this.totalPermissions / 10
       }else{
         this.totalPermissions = 0;
         this.Permissions = [];
@@ -108,6 +117,7 @@ export class PermissionComponent {
     this.hideAddForm()
     this.Permissionsrvice.findpermissionById(Permission.id).subscribe(data=>{
       this.permission = data;
+      
       this.showEditForm()
     
     });
@@ -118,6 +128,7 @@ updatePermission(Permission: Permission) {
     this.Permissionsrvice.updtaepermission(Permission,Permission.id).subscribe(data=>{
       this.permission = data;
       this.toastr.success("Permission Modifier avec succès!")
+      
       this.getPermissions()
      
       this.hideEditForm()
@@ -152,6 +163,8 @@ updatePermission(Permission: Permission) {
       }
     }
     this.permission.title=this.checkedItems.toString()
+    this.permissionForm.patchValue({ title: this.permission.title });
+
   }
 
   gotoTop() {

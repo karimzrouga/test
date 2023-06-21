@@ -172,6 +172,8 @@
 <thead>
 <tr>
     <th>Immatricule</th>
+    <th>Agence</th>
+    <th>Contact</th>
 <th>Capacite</th>
 
 <th>nombers Stations</th>
@@ -182,7 +184,8 @@
 <tr *ngFor="let vehicule of Vehicules | slice:(currentPage - 1) * itemsPerPage : currentPage * itemsPerPage "  >
 <td> <p>{{vehicule.immatricule}}</p></td>
 <td> <p>{{vehicule.capacite}}</p></td>
-
+<td> <p>{{vehicule.agence.name}}</p></td>
+<td> <p>{{vehicule.agence.email}}</p></td>
 <td> <p>{{vehicule.stations.length}}</p></td>
 
 

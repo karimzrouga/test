@@ -6,9 +6,13 @@ import Swal from 'sweetalert2';
 import { PlanificationParAgencesService } from 'src/app/services/PlanificationParAgences.service';
 import { Agence } from 'src/app/model/Agence';
 import { AgencesService } from 'src/app/services/Agences.service';
-import { StationsService } from 'src/app/services/Stations.service';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+
+
+import { Permission } from 'src/app/model/Permission';
+import { PermissionsService } from 'src/app/services/Permissions.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {  FormRecord} from '@angular/forms';
+
 @Component({
   selector: 'app-list-planifiagen',
   templateUrl: './list-planifiagen.component.html',
@@ -24,33 +28,42 @@ export class ListPlanifiagenComponent {
   totalPlanificationParAgences!: number;
   total !:any
   agences!: Agence[];
+
+  permision!:Permission;
+planiFrom !: FormGroup;
   
   term: string="all";
   constructor(
     private  PlanificationParAgencesrvice: PlanificationParAgencesService,
     private  agenceser : AgencesService,
-   
+    private perm :PermissionsService,
+
     private toastr: ToastrService,
     private router: Router
     
   ) { }
-  public openPDF(): void {
-    let DATA: any = document.getElementById('htmlData');
-    html2canvas(DATA).then((canvas) => {
-      let fileWidth = 208;
-      let fileHeight = (canvas.height * fileWidth) / canvas.width;
-      const FILEURI = canvas.toDataURL('image/png');
-      let PDF = new jsPDF('p', 'mm', 'a4');
-      let position = 0;
-      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
-      PDF.save('angular-demo.pdf');
-    });
-  }
+  
 
   ngOnInit(): void {
- this.getPlanificationParAgences()
+    this.planiFrom = new FormGroup({
+      nbbus:new FormControl('', Validators.required),
+     capacite :new FormControl('', Validators.required),
+      agenceId:new FormControl('', Validators.required),
+    });
+
  this.getallagence()
+ this. getperm()
+
   }
+  getperm()
+{ const id=sessionStorage.getItem("permissionId")
+  this.perm.findpermissionById(id).subscribe(data=>{
+ this.permision=data;
+
+ this.getPlanificationParAgences()
+  })
+ 
+}
 
   ChangeSortOrderbystate(event :any)
   {this.term=event.target.value
@@ -75,6 +88,7 @@ export class ListPlanifiagenComponent {
   })
  }
   createPlanificationParAgence(){
+    this.PlanificationParagence=this.planiFrom.value
     this.PlanificationParAgencesrvice.createPlanificationParAgences(this.PlanificationParagence).subscribe(data=>{
         console.log(data)
         this.toastr.success("Liste ajouter avec succès!")
@@ -89,7 +103,8 @@ export class ListPlanifiagenComponent {
 
   }
   getPlanificationParAgences(){
-   
+    if(this.permision.title.toLocaleLowerCase().includes("consulte"))
+    {
     this.PlanificationParAgencesrvice.getPlanificationParAgences().subscribe(data => {
       if(data != null){
         console.log(data.length)
@@ -103,10 +118,21 @@ export class ListPlanifiagenComponent {
     }, error => {
       this.toastr.warning("Serveur ne répond pas!")
     });
+  }else{
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Consulte Permission  Error Contacté Administrateur !',
+     
+    })
+  }
   }
 
   
   deletePlanificationParAgence(PlanificationParAgence: PlanificationParAgence) {
+    if(this.permision.title.toLocaleLowerCase().includes("delete"))
+    {
     Swal.fire({
       title: 'Are you sure want to remove?',
       text: 'You will not be able to recover this Role!',
@@ -128,7 +154,18 @@ export class ListPlanifiagenComponent {
     })
   }
 });
+  }else
+  {
+  
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'DELETE Permission  Error Contacté Administrateur !',
+     
+    })
   }
+
+}
   infoPlanificationParAgence(PlanificationParAgence: PlanificationParAgence) {
     this.agenceser.findAgenceById(PlanificationParAgence.agenceId).subscribe(data=>{
       Swal.fire({
@@ -155,7 +192,9 @@ export class ListPlanifiagenComponent {
     this.hideAddForm()
     this.PlanificationParAgencesrvice.findPlanificationParAgenceById(PlanificationParAgence.id).subscribe(data=>{
       this.PlanificationParagence = data;
+ 
       this.showEditForm()
+      this.gotoTop()
     
     });
   }
@@ -173,16 +212,45 @@ updatePlanificationParAgence(PlanificationParAgence: PlanificationParAgence) {
     });
   }
   showAddForm() {
+    if(this.permision.title.toLocaleLowerCase().includes("create"))
+    {
     this.addFormVisible = true;
    
+  }else
+  {
+ 
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Create Permission  Error Contacté Administrateur !',
+     
+    })
   }
+  
+ 
+}
   hideAddForm() {
     this.addFormVisible = false;
   }
 
   showEditForm() {
+    if(this.permision.title.toLocaleLowerCase().includes("update"))
+    {
     this.editFormVisible = true;
+  }else
+  {
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Update Permission  Error Contacté Administrateur !',
+     
+    })
+
   }
+  
+ 
+}
   hideEditForm() {
     this.editFormVisible = false;
   }

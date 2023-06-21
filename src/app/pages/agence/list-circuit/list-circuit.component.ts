@@ -3,9 +3,11 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Circuit } from 'src/app/model/Circuit';
+import { Permission } from 'src/app/model/Permission';
 import { Stat } from 'src/app/model/Stat';
 import { Station } from 'src/app/model/Station';
 import { CircuitsService } from 'src/app/services/Circuits.service';
+import { PermissionsService } from 'src/app/services/Permissions.service';
 import { StationsService } from 'src/app/services/Stations.service';
 import Swal from 'sweetalert2';
 
@@ -15,53 +17,72 @@ import Swal from 'sweetalert2';
   styleUrls: ['./list-circuit.component.css']
 })
 export class ListCircuitComponent {
-  total !:any
-  currentPage :any = 1;
-  itemsPerPage :any = 10;
-  circuit :Circuit = new Circuit();
+  total !: any
+  currentPage: any = 1;
+  itemsPerPage: any = 10;
+  circuit: Circuit = new Circuit();
   addFormVisible: boolean = false;
   editFormVisible: boolean = false;
-  Circuits!:Circuit [];
-  stations!:Station [];
+  Circuits!: Circuit[];
+  stations!: Station[];
   totalCircuit !: number;
-  term: any ="all";
+  term: any = "all";
+  circuitForm !: FormGroup;
+  permision!: Permission;
   constructor(
-    private  circuitsrvice: CircuitsService,
-    private  stationsrvice: StationsService,
+    private perm: PermissionsService,
+    private circuitsrvice: CircuitsService,
+    private stationsrvice: StationsService,
     private toastr: ToastrService,
     private router: Router,
-    private builder:FormBuilder
-    
+    private builder: FormBuilder
+
   ) { }
- 
+
   ngOnInit(): void {
+    this.circuitForm = new FormGroup({
+      circuitName: new FormControl('', Validators.required),
+      cout: new FormControl('', Validators.required),
+      km: new FormControl('', Validators.required),
+    });
+    this.getperm()
 
- this.getCircuits()
- this.getstations()
 
+    this.getstations()
+
+  }
+
+  getperm() {
+    const id = sessionStorage.getItem("permissionId")
+    this.perm.findpermissionById(id).subscribe(data => {
+      this.permision = data;
+      this.getCircuits()
+
+
+
+    })
 
   }
   public filterCallback = (item: any) => {
-    
-    return this.stationsrvice.filter(e=> e.stationsId==this.term)
+
+    return this.stationsrvice.filter(e => e.stationsId == this.term)
   };
 
-  getstations()
-  {
-    this.stationsrvice.getstations().subscribe(data=>{
-      this.stations=data
+  getstations() {
+    this.stationsrvice.getstations().subscribe(data => {
+      this.stations = data
     })
   }
   infoStation(Station: Station) {
- 
-    this.stationsrvice.findstationById(Station.id).subscribe(data=>{
+
+    this.stationsrvice.findstationById(Station.id).subscribe(data => {
       Swal.fire({
         icon: 'info',
         title: data.lieu,
         html:
           '<div class="swal-info">' +
           ' <p><b>Matricule:</b> <span>' + data.lieu + '</span></p>' +
-         
+
           '</div>',
         customClass: {
           container: 'swal-container',
@@ -69,87 +90,118 @@ export class ListCircuitComponent {
           htmlContainer: 'swal-html-container',
         }
       });
-     
-    
+
+
     });
   }
-  getid(event :any){
-   // this.stations.id=event.target.value;
-     }
-  createcircuit (){
+  getid(event: any) {
+    //this.stations.id=event.target.value;
+  }
 
-this.circuitsrvice.createCircuit(this.circuit).subscribe(data=>{
+  createcircuit() {
+    this.circuit = this.circuitForm.value
+    this.circuitsrvice.createCircuit(this.circuit).subscribe(data => {
       console.log(data)
       this.toastr.success("Circuit  ajouter avec succès!")
       this.getCircuits()
       this.hideAddForm()
-    
-    }, error=>{
+
+    }, error => {
       console.log(error);
       this.toastr.error("Erreur, Serveur ne répond pas!")
     });
-    this.circuit =new Circuit();
+    this.circuit = new Circuit();
 
 
   }
 
-  getCircuits(){
-  
-    this.circuitsrvice.getCircuits().subscribe(data => {
-      if(data != null){
-        console.log(data.length)
-        this.Circuits= data;
-        this.totalCircuit = data.length;
-      }else{
-        this.totalCircuit = 0;
-        this.Circuits = [];
-      }
-    }, error => {
-      this.toastr.warning("Serveur ne répond pas!")
-    });
+  getCircuits() {
+    console.log("hello" + this.permision.title)
+    if (this.permision.title.toLocaleLowerCase().includes("consulte")) {
+      this.circuitsrvice.getCircuits().subscribe(data => {
+        if (data != null) {
+          console.log(data.length)
+          this.Circuits = data;
+          this.totalCircuit = data.length;
+          this.total=this.totalCircuit/10
+        } else {
+          this.totalCircuit = 0;
+          this.Circuits = [];
+        }
+      }, error => {
+        this.toastr.warning("Serveur ne répond pas!")
+      });
+    }
+    else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Consulte Permission  Error Contacté Administrateur !',
+
+      })
+    }
   }
 
-  
-  deleteCircuit (Circuit :Circuit ) {
-    Swal.fire({
-      title: 'Are you sure want to remove?',
-      text: 'You will not be able to recover this Role!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it',
-    }).then((result) => {
-      if (result.value) {
-  
-    this.circuitsrvice.deleteCircuit(Circuit .id).subscribe(data => {
-      this.toastr.warning("Circuit supprimée!")
-    
-      this.getCircuits()
-      this.hideAddForm()
-      
-    }, error => {
-      this.toastr.error("Error, server not responding!")
-      console.log(error)
-    })
-  }
-});
+
+  deleteCircuit(Circuit: Circuit) {
+    if (this.permision.title.toLocaleLowerCase().includes("delete")) {
+      Swal.fire({
+        title: 'Are you sure want to remove?',
+        text: 'You will not be able to recover this Circuit!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it',
+      }).then((result) => {
+        if (result.value) {
+
+          this.circuitsrvice.deleteCircuit(Circuit.id).subscribe(data => {
+            this.toastr.success("Circuit supprimée!")
+
+            this.getCircuits()
+            this.hideAddForm()
+
+          }, error => {
+            this.toastr.error("Error, server not responding!")
+            console.log(error)
+          })
+        }
+      });
+    } else {
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'DELETE Permission  Error Contacté Administrateur !',
+
+      })
+    }
   }
 
-  editcircuit (Circuit :Circuit ) {
+  editcircuit(Circuit: Circuit) {
     this.hideAddForm()
-    this.circuitsrvice.findCircuitById(Circuit.id).subscribe(data=>{
-      this.circuit  = data;
-      this.showEditForm()
-    
-    });
-  }
-updatecircuit (Circuit :Circuit ) {
-   
-    this.circuitsrvice.updtaeCircuit (Circuit ,Circuit .id).subscribe(data=>{
-      this.circuit  = data;
-      this.toastr.success("Circuit  Modifier avec succès!")
-      this.getCircuits ()
+    this.circuitsrvice.findCircuitById(Circuit.id).subscribe(data => {
+      this.circuit = data;
      
+      this.circuitForm.setValue({
+        circuitName: this.circuit.circuitName,
+        cout: this.circuit.cout,
+        km: this.circuit.km,
+
+      });
+
+      this.showEditForm()
+      this.gotoTop()
+    });
+
+  }
+  updatecircuit(Circuit: Circuit) {
+
+    this.circuitsrvice.updtaeCircuit(Circuit, Circuit.id).subscribe(data => {
+      this.circuit = data;
+      this.toastr.success("Circuit  Modifier avec succès!")
+      this.getCircuits()
+
       this.hideEditForm()
     }, error => {
       this.toastr.error("Error, server not responding!")
@@ -157,21 +209,42 @@ updatecircuit (Circuit :Circuit ) {
     });
   }
   showAddForm() {
-    this.addFormVisible = true;
-   
+    if (this.permision.title.toLocaleLowerCase().includes("create")) {
+      this.addFormVisible = true;
+    } else {
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Create Permission  Error Contacté Administrateur !',
+
+      })
+    }
+
   }
   hideAddForm() {
     this.addFormVisible = false;
   }
 
   showEditForm() {
-    this.editFormVisible = true;
+    if (this.permision.title.toLocaleLowerCase().includes("update")) {
+      this.editFormVisible = true;
+    } else {
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Update Permission  Error Contacté Administrateur !',
+
+      })
+
+    }
   }
   hideEditForm() {
     this.editFormVisible = false;
   }
 
- 
+
 
   gotoTop() {
     window.scroll({
@@ -180,7 +253,7 @@ updatecircuit (Circuit :Circuit ) {
       behavior: 'smooth'
     });
   }
-  redirectToList(){
+  redirectToList() {
     this.router.navigate(['/admin'])
   }
 

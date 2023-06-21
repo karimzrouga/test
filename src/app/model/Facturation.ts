@@ -4,9 +4,9 @@ export class Facturation {
     montant!: number
     description!: string
     agenceId!:number
-  createdAt!:Date
-        updatedAt!: Date
-  pdfUrl: any
+    createdAt!:Date
+    updatedAt!: Date
+
  
     
 }

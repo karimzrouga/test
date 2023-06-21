@@ -12,9 +12,7 @@ export class message
   providedIn: 'root'
 })
 export class VehiculesService {
-  updtae(vehicule: Vehicule, id: number) {
-    throw new Error('Method not implemented.');
-  }
+  
   deleterole(id: number) {
     throw new Error('Method not implemented.');
   }

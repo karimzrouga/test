@@ -161,6 +161,7 @@
 <thead>
 <tr>
 <th>Nom</th>
+<th>employé</th>
 <th>Temps d'entrer</th>
 <th>Temps de sortie</th>
 <th>Temps de sortie</th>
@@ -173,12 +174,17 @@
 <tbody> 
 <tr *ngFor="let role of Planifications | slice:(currentPage - 1) * itemsPerPage : currentPage * itemsPerPage "   >
 <td> <p>{{role.planificationName}}</p></td>
+<td> <p>{{role.users.length}}</p></td>
 <td> <p>{{role.entre}}</p></td> 
 <td> <p>{{role.sortie}}</p></td> 
 <td> <p>{{role.repos}}</p></td> 
 <td> <p>{{role.createdAt| date : "MM/dd/yyyy hh:mm:ssa" }}</p></td>
 <td> <p> {{ role.updatedAt | date : "MM/dd/yyyy hh:mm:ssa" }}</p></td>
-<td><button class="btn btn-sm btn-warning m-2"  (click)="editPlanification(role)">
+<td>
+    
+    <button class="btn btn-sm btn-info m-2" (click)="info(role)">
+        <i class="fas fa-info-circle text-white"></i>
+    </button><button class="btn btn-sm btn-warning m-2"  (click)="editPlanification(role)">
 <i class="fas fa-pen text-white"></i>
 
 </button>
