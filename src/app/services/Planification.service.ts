@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { Planification } from '../model/Planification';
@@ -23,6 +23,16 @@ createplanifications(planification :Planification ):Observable<any>
 return this.http.post(this.baseUrl+"/ListePlanifications" ,planification);
 
 
+}
+uploadExcelFile(file: File): Observable<any> {
+  const formData: FormData = new FormData();
+  formData.append('file', file);
+  const headers = new HttpHeaders({
+    'Accept': 'application/json',
+    'Content-Type': 'multipart/form-data' // Add this line
+  });
+  
+  return this.http.post('https://localhost:7102/api/Excel/ImportData', formData, { headers: headers });
 }
 getplanifications(): Observable<Planification[]> {
   return this.http.get<Planification[]>(this.baseUrl+"/ListePlanifications");

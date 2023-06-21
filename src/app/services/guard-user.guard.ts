@@ -49,7 +49,7 @@ export class GuardUserGuard implements CanActivate {
        
          
           }
-     console.log()
+  
           if   ((path?.includes('Servicepaie/cotisation') &&path?.includes('profile'))||role?.includes('Servicepaie') ) {
         
          
@@ -62,6 +62,35 @@ export class GuardUserGuard implements CanActivate {
               
          
             }
+            if   ((path?.includes('RhSegment/planification') &&path?.includes('profile'))||role?.includes('RhSegment') ) {
+        
+         
+              return true
+  
+            }
+            if   ((path?.includes('ChefSegment/planification') &&path?.includes('profile'))||role?.includes('ChefSegment') ) {
+        
+         
+              return true
+  
+            }
+            
+
+            if   ((path?.includes('Servicepaie/cotisation') &&path?.includes('profile'))||role?.includes('Servicepaie') ) {
+        
+         
+              return true
+  
+            }
+            
+            if   ((path?.includes('Servicefinance/facturation') &&path?.includes('profile'))||role?.includes('Servicefinance') ) {
+        
+         
+              return true
+  
+            }
+           
+         
     this.router.navigateByUrl('/'); // for any other condition, navigate to the res route
     return false;
   }

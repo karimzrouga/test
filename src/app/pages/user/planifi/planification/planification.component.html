@@ -16,13 +16,57 @@
                                 Liste des Planifications
                             </div>
                             <div class="col col-lg-2">
-                                <button class="btn btn-primary btn-sm float-right"  (click)="showAddForm()" >
-                                    <i class="fas fa-plus"></i>
-                                    
-                                    
+                                <button class="btn btn-primary btn-sm float-right" (click)="showAddForm()">
+                                  <i class="fas fa-plus"></i>
                                 </button>
+                                
+                                <button class="btn btn-secondary btn-sm float-right" (click)="showimportForm()" style="margin-left: 10px;">
+                                  <i class="fas fa-file-excel"></i> 
+                                </button>
+                              </div>
+                              <div class="row" *ngIf="addimportVisible">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        
+                                    </div>
+                                    <div class="card-body">
+            
+                                        <form (ngSubmit)="import();" method="POST">
+                                            <div class="card card-default">
+            
+                                                <div class="card-body">
+            
+                                                    <div class="row">
+                                                        <div class="form-group col-lg-6">
+                                                            <label>Select File:</label>
+                                                         
+                                                            <input type="file"  class="form-control"(change)="onFileSelected($event)">
+                                                        </div>
+                                                      
+                                                    </div>
+                                               
+       
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="row float-right">
+                                                        <div class="col">
+                                                            <button type="reset" class="btn btn-primary  btn-sm m-3"
+                                                                data-dismiss="modal"
+                                                                (click)="hideimportForm()">Annuler</button>
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                data-dismiss="modal">Import</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+            
+            
+            
+            
+                                    </div>
+                                </div>
                             </div>
-
 
                             <div class="row" *ngIf="addFormVisible">
                                 <div class="card mb-4">

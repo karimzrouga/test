@@ -28,6 +28,7 @@ const routes: Routes = [
     {path: 'cotisation' ,component:CotisationComponent}
  ]
  },  {path:'Psmanger/planifiagenceag',component:ListPlanifiagenComponent},
+ {path:'Servicefinance/facturation',component:ListFacturationComponent},
 ];
 
 @NgModule({

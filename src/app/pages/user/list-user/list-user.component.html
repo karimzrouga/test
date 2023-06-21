@@ -52,8 +52,8 @@ z-index: 9999;" >
                                                   </div>
                                                 </div>
                                                 <div class="form-group col-lg-6">
-                                                  <label>Nom</label>
-                                                  <input type="text" formControlName="nom" class="form-control" />
+                                                  <label>Nom et Prénom</label>
+                                                  <input type="text" [maxlength]="30" [minlength]="3" formControlName="nom" class="form-control" />
                                                   <div class="error-message" *ngIf="userForm.get('nom')?.invalid && (userForm.get('nom')?.dirty || userForm.get('nom')?.touched)">
                                                     <div class="error-text" *ngIf="userForm.get('nom')?.errors?.['required']">Nom is required.</div>
                                                   </div>
@@ -69,29 +69,38 @@ z-index: 9999;" >
                                                   </div>
                                                   <div class="form-group col-lg-6">
                                                     <label>Password</label>
-                                                    <input type="password" [minlength]="8"  formControlName="password" class="form-control" />
+                                                    <div class="input-group">
+                                                      <input [type]="showPassword ? 'text' : 'password'" [minlength]="8" formControlName="password" class="form-control" />
+                                                      <div class="input-group-append">
+                                                        <span class="input-group-text" (click)="togglePasswordVisibility()">
+                                                          <i class="fa" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword}"></i>
+                                                        </span>
+                                                      </div>
+                                                    </div>
                                                     <div class="error-message" *ngIf="userForm.get('password')?.invalid && (userForm.get('password')?.dirty || userForm.get('password')?.touched)">
                                                       <div class="error-text" *ngIf="userForm.get('password')?.errors?.['required']">Password is required.</div>
                                                       <div class="error-text" *ngIf="userForm.get('password')?.errors?.['minlength']">Password should have a minimum length of 8 characters.</div>
                                                     </div>
                                                   </div>
+                                                  
+                                                  
                                                   <div class="form-group col-lg-6">
                                                     <label>Adresse</label>
-                                                    <input type="text" formControlName="adresse" class="form-control" />
+                                                    <input type="text" [maxlength]="30" [minlength]="3" formControlName="adresse" class="form-control" />
                                                     <div  class="error-message" *ngIf="userForm.get('adresse')?.invalid && (userForm.get('adresse')?.dirty || userForm.get('adresse')?.touched)">
                                                       <div class="error-text"  *ngIf="userForm.get('adresse')?.errors?.['required']">Adresse is required.</div>
                                                     </div>
                                                   </div>
                                                   <div class="form-group col-lg-6">
                                                     <label>Plansection</label>
-                                                    <input type="text" formControlName="plansection" class="form-control" />
+                                                    <input type="text" [maxlength]="30" [minlength]="3" formControlName="plansection" class="form-control" />
                                                     <div class="error-message" *ngIf="userForm.get('plansection')?.invalid && (userForm.get('plansection')?.dirty || userForm.get('plansection')?.touched)">
                                                       <div class="error-text"  *ngIf="userForm.get('plansection')?.errors?.['required']">Plansection is required.</div>
                                                     </div>
                                                   </div>
                                                   <div class="form-group col-lg-6">
                                                     <label>Segment</label>
-                                                    <input type="text" formControlName="segment" class="form-control" />
+                                                    <input type="text" [maxlength]="30" [minlength]="3" formControlName="segment" class="form-control" />
                                                     <div  class="error-message" *ngIf="userForm.get('segment')?.invalid && (userForm.get('segment')?.dirty || userForm.get('segment')?.touched)">
                                                       <div class="error-text"  *ngIf="userForm.get('segment')?.errors?.['required']">Segment is required.</div>
                                                     </div>
@@ -137,7 +146,7 @@ z-index: 9999;" >
                                               <div class="card-footer">
                                                 <div class="row float-right">
                                                   <div class="col">
-                                                    <button type="reset" class="btn btn-primary btn-sm m-3" data-dismiss="modal" (click)="hideAddForm()">Annuler</button>
+                                                    <button type="reset" class="btn btn-primary btn-sm m-3" data-dismiss="modal" (click)="hideAddForm()">[maxlength]="30" [minlength]="3"</button>
                                                     <button type="submit" class="btn btn-success btn-sm" data-dismiss="modal" [disabled]="userForm.invalid">Enregistrer</button>
                                                   </div>
                                                 </div>
@@ -168,8 +177,8 @@ z-index: 9999;" >
                                                     </div>
                                                   </div>
                                                   <div class="form-group col-lg-6">
-                                                    <label>Nom</label>
-                                                    <input type="text" formControlName="nom" class="form-control" />
+                                                    <label>Nom et Prénom</label>
+                                                    <input type="text"  [maxlength]="30" [minlength]="3"formControlName="nom" class="form-control" />
                                                     <div class="error-message" *ngIf="userForm.get('nom')?.invalid && (userForm.get('nom')?.dirty || userForm.get('nom')?.touched)">
                                                       <div class="error-text" *ngIf="userForm.get('nom')?.errors?.['required']">Nom is required.</div>
                                                     </div>
@@ -185,29 +194,37 @@ z-index: 9999;" >
                                                     </div>
                                                     <div class="form-group col-lg-6">
                                                       <label>Password</label>
-                                                      <input type="password" [minlength]="8"  formControlName="password" class="form-control" />
+                                                      <div class="input-group">
+                                                        <input [type]="showPassword ? 'text' : 'password'" [minlength]="8" formControlName="password" class="form-control" />
+                                                        <div class="input-group-append">
+                                                          <span class="input-group-text" (click)="togglePasswordVisibility()">
+                                                            <i class="fa" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword}"></i>
+                                                          </span>
+                                                        </div>
+                                                      </div>
                                                       <div class="error-message" *ngIf="userForm.get('password')?.invalid && (userForm.get('password')?.dirty || userForm.get('password')?.touched)">
                                                         <div class="error-text" *ngIf="userForm.get('password')?.errors?.['required']">Password is required.</div>
                                                         <div class="error-text" *ngIf="userForm.get('password')?.errors?.['minlength']">Password should have a minimum length of 8 characters.</div>
                                                       </div>
                                                     </div>
+                                                    
                                                     <div class="form-group col-lg-6">
                                                       <label>Adresse</label>
-                                                      <input type="text" formControlName="adresse" class="form-control" />
+                                                      <input type="text" [maxlength]="30" [minlength]="3" formControlName="adresse" class="form-control" />
                                                       <div  class="error-message" *ngIf="userForm.get('adresse')?.invalid && (userForm.get('adresse')?.dirty || userForm.get('adresse')?.touched)">
                                                         <div class="error-text"  *ngIf="userForm.get('adresse')?.errors?.['required']">Adresse is required.</div>
                                                       </div>
                                                     </div>
                                                     <div class="form-group col-lg-6">
                                                       <label>Plansection</label>
-                                                      <input type="text" formControlName="plansection" class="form-control" />
+                                                      <input type="text" [maxlength]="30" [minlength]="3" formControlName="plansection" class="form-control" />
                                                       <div class="error-message" *ngIf="userForm.get('plansection')?.invalid && (userForm.get('plansection')?.dirty || userForm.get('plansection')?.touched)">
                                                         <div class="error-text"  *ngIf="userForm.get('plansection')?.errors?.['required']">Plansection is required.</div>
                                                       </div>
                                                     </div>
                                                     <div class="form-group col-lg-6">
                                                       <label>Segment</label>
-                                                      <input type="text" formControlName="segment" class="form-control" />
+                                                      <input type="text"  [maxlength]="30" [minlength]="3" formControlName="segment" class="form-control" />
                                                       <div  class="error-message" *ngIf="userForm.get('segment')?.invalid && (userForm.get('segment')?.dirty || userForm.get('segment')?.touched)">
                                                         <div class="error-text"  *ngIf="userForm.get('segment')?.errors?.['required']">Segment is required.</div>
                                                       </div>
@@ -253,7 +270,7 @@ z-index: 9999;" >
                                                 <div class="card-footer">
                                                   <div class="row float-right">
                                                     <div class="col">
-                                                      <button type="reset" class="btn btn-primary btn-sm m-3" data-dismiss="modal" (click)="hideAddForm()">Annuler</button>
+                                                      <button type="reset" class="btn btn-primary btn-sm m-3" data-dismiss="modal" (click)="hideEditForm()">Annuler</button>
                                                       <button type="submit" class="btn btn-success btn-sm" data-dismiss="modal" [disabled]="userForm.invalid">Enregistrer</button>
                                                     </div>
                                                   </div>

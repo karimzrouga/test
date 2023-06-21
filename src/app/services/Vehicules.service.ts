@@ -47,6 +47,9 @@ return this.http.put(this.baseUrl+`/Vehicules/${id}` ,vehicule);
 
 
 }
-
+affecterVehiculeAStations(vehiculeId: number, stationIds: number) {
+  const url = this.baseUrl+`/Vehicules/${vehiculeId}/${stationIds}`;
+  return this.http.get(url);
+}
 
 }

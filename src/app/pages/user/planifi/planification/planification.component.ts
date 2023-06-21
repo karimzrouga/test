@@ -25,7 +25,8 @@ export class PlanificationComponent {
   Planifications!: Planification[];
   planification: Planification = new Planification();
   totalPlanifications!: number;
-
+  addimportVisible: boolean = false;
+  selectedFile!: File ;
   constructor(
     private planificationsrvice: PlanificationsService,
     private perm: PermissionsService,
@@ -45,6 +46,30 @@ export class PlanificationComponent {
 
     this.getperm()
   }
+  import(){
+if (this.selectedFile) 
+{
+  this.planificationsrvice.uploadExcelFile(this.selectedFile).subscribe(d=>{
+    this.toastr.success("Import avec succès!")
+    this.getPlanifications()
+
+    this.hideimportForm()
+  }, error => {
+    console.log(error);
+    this.toastr.error("Erreur, Serveur ne répond pas!")
+  });
+}else{
+  this.toastr.warning("Erreur, Select excel file!")
+}
+ 
+  }
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
   info(plani: Planification) {
      if (this.permision.title.toLocaleLowerCase().includes("consulte")) {
     let htmlContent = '';
@@ -82,6 +107,8 @@ export class PlanificationComponent {
 
     if (this.permision.title.toLocaleLowerCase().includes("create")) {
       this.addFormVisible = true;
+      
+      this.hideimportForm()
     } else {
 
       Swal.fire({
@@ -99,6 +126,8 @@ export class PlanificationComponent {
 
     if (this.permision.title.toLocaleLowerCase().includes("update")) {
       this.editFormVisible = true;
+      
+      this.hideimportForm()
     } else {
 
       Swal.fire({
@@ -215,7 +244,14 @@ export class PlanificationComponent {
   hideAddForm() {
     this.addFormVisible = false;
   }
-
+  showimportForm(){
+    this.hideAddForm()
+    this.hideEditForm()
+    this.addimportVisible = true;
+  }
+  hideimportForm() {
+    this.addimportVisible = false;
+  }
 
   hideEditForm() {
     this.editFormVisible = false;

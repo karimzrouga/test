@@ -1,5 +1,6 @@
 
 <router-outlet></router-outlet>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <section id="default" class="d-flex align-items-right">
     <div class="container-fluid" data-aos="fade-up">
@@ -20,7 +21,7 @@
                     height="465" class="svg__image"></image>
             </svg>
         
-            <button class="btn-get-started scrollto">  En savoir plus</button>
+            <a href="https://www.leoni.com/" class="btn-get-started scrollto">  En savoir plus</a>
         
        
         </div>
@@ -30,24 +31,41 @@
     </div>
   </section>
   <div class="container">
-    <form action="#">
-      <img src="assets/logo.png" style="  margin-left: 20%;" width="50%">
-      <div class="title align-baseline">Login </div>
-      <div class="alert alert-warning" *ngIf='invalidLogin'>{{errorMessage}}</div>
-      <div class="alert alert-success" *ngIf='loginSuccess'>{{successMessage}}</div>
+    <form [formGroup]="userForm" (ngSubmit)="Login()">
+      <img src="assets/logo.png" style="margin-left: 20%;" width="50%">
+      <div class="title align-baseline">Login</div>
+      <div class="alert alert-warning" *ngIf="invalidLogin">{{errorMessage}}</div>
+      <div class="alert alert-success" *ngIf="loginSuccess">{{successMessage}}</div>
       <div class="input-box underline">
-        <input type="text" placeholder="Enter Your Email" name="email" [(ngModel)]=" userauth.email" required>
+        <input type="text" placeholder="Enter Your Email" formControlName="email">
         <div class="underline"></div>
+        <div class="error-message" *ngIf="userForm.get('email')?.invalid && (userForm.get('email')?.dirty || userForm.get('email')?.touched)">
+          <div class="error-text" *ngIf="userForm.get('email')?.errors?.['required']" [ngClass]="{'error-red': true}">Email is required.</div>
+          <div class="error-text" *ngIf="userForm.get('email')?.errors?.['email']" [ngClass]="{'error-red': true}">Invalid email format.</div>
+        </div>
       </div>
-      <div class="input-box">
-        <input type="password" placeholder="Enter Your Password" name="Mdp" [(ngModel)]=" userauth.Mdp"
-          required>
+      <div class="input-box input-group">
+        <input placeholder="Password" [type]="showPassword ? 'text' : 'password'" [minlength]="8" formControlName="Mdp" class="form-control" />
+        <div class="input-group-append">
+          <span class="input-group-text" (click)="togglePasswordVisibility()">
+            <i class="fa" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword}"></i>
+          </span>
+        </div>
         <div class="underline"></div>
+        <div class="error-message" *ngIf="userForm.get('Mdp')?.invalid && (userForm.get('Mdp')?.dirty || userForm.get('Mdp')?.touched)">
+          <div class="error-text" *ngIf="userForm.get('Mdp')?.errors?.['required']" [ngClass]="{'error-red': true}">Password is required.</div>
+        </div>
       </div>
+      
       <div class="input-box button">
-        <input type="submit" (click)="Login()" name="" value="Continue">
+        <input type="submit" [disabled]="userForm.invalid" value="Continue">
       </div>
     </form>
+    
+    
+    
+    
+    
   
   </div>
   

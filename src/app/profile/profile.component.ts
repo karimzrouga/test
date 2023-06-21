@@ -20,88 +20,80 @@ import { Role } from '../model/Role.model';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor( private Userservice :usersService
-    ,private toastr: ToastrService, private router:Router ,  private auth :AuthUserService
-    ) { }
-user :User=new User()
-check:boolean =false ;
-cpassword :String="" ;
-npassword :String |any ="" ;
-id!:number
+  constructor(private Userservice: usersService
+    , private toastr: ToastrService, private router: Router, private auth: AuthUserService
+  ) { }
+  user: User = new User()
+  check: boolean = false;
+  cpassword: String = "";
+  npassword: String | any = "";
+  id!: number
   ngOnInit(): void {
-    this.getusers ()
+    this.getusers()
   }
-getusers ()
-{
- const id= sessionStorage.getItem("id")
-  this.Userservice.findUserById(id).subscribe(
-    data=>{
- this.user=data;
-    }
-  )
+  getusers() {
+    const id = sessionStorage.getItem("id")
+    this.Userservice.findUserById(id).subscribe(
+      data => {
+        this.user = data
 
-}
+      }
 
-show(){
-  this.check=true;
- 
-}
-hide(){
-  this.check=false;
+    )
 
-}
+  }
 
-edit() 
-{
+  show() {
+    this.check = true;
 
-  
-  if (this.cpassword .length==0 &&this.npassword .length==0)
-  {
- 
+  }
+  hide() {
+    this.check = false;
 
-console.log(this.user)
+  }
 
-    this.Userservice.updtaeUser(this.user ,this.user.id).subscribe(data=> 
-      { 
-                  console.log(data)
-                  this.user=data ;
-                  this.toastr.success("Edit avec succès");
-                  this.router.navigate(['/profile']);
-          
-        }
-          
-        ),(err:HttpErrorResponse)=>
-        {
+  edit() {
+
+
+    if (this.cpassword.length == 0 && this.npassword.length == 0) {
+
+
+      console.log(this.user)
+
+      this.Userservice.updtaeUser(this.user, this.user.id).subscribe(data => {
+     
+        this.toastr.success("Edit avec succès");
+        this.router.navigate(['/profile']);
+
+      }
+
+      ), (err: HttpErrorResponse) => {
           console.log(err.error.message)
         }
-  }
-  else{
- if (this.cpassword==this.user.password && this.npassword .length>5)
- {
-this.user.password=this.npassword 
-
-this.Userservice.findUserById(this.user).subscribe(data=> 
-  { 
-              console.log(data)
-              this.user=data ;
-              this.toastr.success("Edit avec succès");
-              this.router.navigate(['/home']);
-      
     }
-      
-    );
+    else {
+      if (this.cpassword == this.user.password && this.npassword.length > 5) {
+        this.user.password = this.npassword
 
- }
- else
- {
-  this.toastr.error("Failed password");
- }
- 
+        this.Userservice.findUserById(this.user).subscribe(data => {
+       
+          this.toastr.success("Edit avec succès");
+          this.router.navigate(['/home']);
+
+        }
+
+        );
+
+      }
+      else {
+        this.toastr.error("Failed password");
+      }
+
+    }
+
   }
- 
-}
 
- 
+
 
 
 }

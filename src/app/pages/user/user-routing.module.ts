@@ -21,10 +21,10 @@ const routes: Routes = [
       {path:'stations' , component:StationComponent},
     ] },{path:'Servicepaie/cotisation' , component:CotisationComponent},
     {path: 'Psmanger/planification' ,component:PlanificationComponent},
-
-
+    {path: 'RhSegment/planification' ,component:PlanificationComponent},
+    {path: 'ChefSegment/planification' ,component:PlanificationComponent},
  
-
+    {path: 'Servicepaie/cotisation' ,component:CotisationComponent},
 ];
 
 @NgModule({

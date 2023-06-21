@@ -1,4 +1,5 @@
 
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { Shift } from './../../../model/Shift';
 import { PermissionsService } from 'src/app/services/Permissions.service';
@@ -23,7 +24,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./list-user.component.css']
 })
 export class ListUserComponent {
-
+  showPassword: boolean = false;
 total !:any
   currentPage :any = 1;
   itemsPerPage :any = 10;
@@ -51,6 +52,10 @@ total !:any
     private router: Router
    
   ) { }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
   ngOnInit(): void {
     this.userForm = new FormGroup({
       matricule: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
@@ -116,7 +121,7 @@ try {
     this.hideAddForm()
     this.user=new User();
   }, (e:HttpErrorResponse)=>{
-   console.log(e.error.message);
+   
     this.toastr.error("Erreur, Serveur ne répond pas!")
   });
  // 

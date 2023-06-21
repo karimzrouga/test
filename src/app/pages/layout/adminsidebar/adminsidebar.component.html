@@ -7,10 +7,14 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-id-card"></i></div>
                 Profile
             </a>
-            <a class="nav-link" routerLink="/stat">
-                <div class="sb-nav-link-icon"><i class="fas fa-chart-pie"></i></div>
-                Statistiques
-            </a>
+          
+            <div *ngIf="role!='employe'" >
+                <a class="nav-link" routerLink="/stat">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-pie"></i></div>
+                    Statistiques
+                </a>
+               
+            </div>
            <div *ngIf="role=='admin'" >
             <a  class="nav-link" [routerLink]="['/admin/users']">
                 <div class="sb-nav-link-icon"><i class="fas fa-user-alt"></i></div>
@@ -105,8 +109,8 @@
            
         </div>
         <div *ngIf="role=='Psmanger'" >
-            <a class="nav-link" [routerLink]="['/Psmanger/planification']">
-                <div class="sb-nav-link-icon"><i class=""></i></div>
+            <a class="nav-link" [routerLink]="['/restrans/planification']">
+                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
                 Planifications
             </a>
            
@@ -114,6 +118,34 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
                Planifiagens
             </a>
+        </div>
+        <div *ngIf="role=='RhSegment'" >
+            <a class="nav-link" [routerLink]="['/restrans/planification']">
+                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
+                Planifications
+            </a>
+           
+        </div>
+        <div *ngIf="role=='ChefSegment'" >
+            <a class="nav-link" [routerLink]="['/restrans/planification']">
+                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
+                Planifications
+            </a>
+           
+        </div>
+        <div *ngIf="role=='employe'" >
+            <a class="nav-link" [routerLink]="['/map']">
+                <div class="sb-nav-link-icon"><i class="fas fa-map"></i></div>
+               Map
+            </a>
+           
+        </div>
+        <div *ngIf="role=='Servicefinance'" >
+            <a class="nav-link" [routerLink]="['/restrans/facturation']">
+                <div class="sb-nav-link-icon"><i class="fas fa-file-alt"></i></div>
+               Facturations
+            </a>
+           
         </div>
         </div>
         <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/><br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>

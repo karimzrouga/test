@@ -6,6 +6,22 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+.error-red {
+  color: red;
+}
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.password-toggle i {
+  color: #ccc;
+}
+
+
 
 .container {
   background: #fff;
